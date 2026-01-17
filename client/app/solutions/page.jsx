@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { Building2, Handshake, Building, FileText, Search } from 'lucide-react';
 
 // Mock solutions/resources data
 const mockSolutions = [
@@ -154,15 +155,18 @@ export default function SolutionsPage() {
   };
 
   const getTypeIcon = (type) => {
+    const iconClass = "w-12 h-12";
+    const iconColor = "text-blue-600";
+    
     switch (type) {
       case 'Government':
-        return '🏛️';
+        return <Building2 className={`${iconClass} ${iconColor}`} />;
       case 'NGO':
-        return '🤝';
+        return <Handshake className={`${iconClass} ${iconColor}`} />;
       case 'Private':
-        return '🏢';
+        return <Building className={`${iconClass} ${iconColor}`} />;
       default:
-        return '📋';
+        return <FileText className={`${iconClass} ${iconColor}`} />;
     }
   };
 
@@ -412,7 +416,9 @@ export default function SolutionsPage() {
 
           {filteredSolutions.length === 0 && (
             <div className="text-center py-16">
-              <div className="text-6xl mb-4">🔍</div>
+              <div className="flex justify-center mb-4">
+                <Search className="w-16 h-16 text-gray-400" />
+              </div>
               <h3 className="text-2xl font-bold text-gray-900 mb-2">No Organizations Found</h3>
               <p className="text-gray-600">Try adjusting your filters to see more results</p>
             </div>
