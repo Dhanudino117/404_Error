@@ -11,6 +11,11 @@ const formatDate = (dateString: string) => {
     return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
 };
 
+// Helper function to format numbers consistently (fixes hydration errors)
+const formatNumber = (num: number): string => {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
+
 // Transform USGS earthquake data to our problem format
 const transformEarthquakeData = (feature: any, index: number) => {
     const { properties, geometry } = feature;
@@ -388,10 +393,10 @@ export default function ProblemsPage() {
                         {filteredProblems.map((problem) => (
                             <div
                                 key={problem.id}
-                                className="group relative p-8 md:p-12 bg-white/5 backdrop-blur-2xl border border-white/10 rounded-3xl hover:bg-white/10 hover:border-white/20 transition-all duration-500 hover:scale-[1.01] hover:shadow-2xl overflow-hidden"
+                                className="group relative p-8 md:p-12 bg-white/5 backdrop-blur-2xl border border-white/10 rounded-2xl hover:bg-white/10 hover:border-white/20 transition-all duration-500 hover:scale-[1.01] hover:shadow-2xl overflow-hidden"
                             >
                                 {/* Background gradient on hover */}
-                                <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/0 via-violet-500/0 to-cyan-500/0 group-hover:from-indigo-500/5 group-hover:via-violet-500/5 group-hover:to-cyan-500/5 transition-all duration-500 rounded-3xl" />
+                                <div className="absolute inset-0 transition-all duration-500 rounded-3xl" />
 
                                 <div className="relative flex flex-col lg:flex-row lg:items-start gap-8">
                                     {/* Left Section */}
@@ -432,7 +437,7 @@ export default function ProblemsPage() {
                                                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                                                         </svg>
-                                                        <span className="font-semibold text-white">{problem.affectedPeople.toLocaleString()}</span> affected
+                                                        <span className="font-semibold text-white">{formatNumber(problem.affectedPeople)}</span> affected
                                                     </span>
                                                 </div>
 
@@ -462,10 +467,20 @@ export default function ProblemsPage() {
                                         <div className={`px-6 py-3 bg-gradient-to-br ${getSeverityColor(problem.severity)} backdrop-blur-xl border rounded-2xl font-bold text-center min-w-[140px]`}>
                                             {problem.severity}
                                         </div>
-                                        <button className="group/btn relative px-8 py-4 bg-gradient-to-r from-indigo-500 to-violet-600 hover:from-indigo-600 hover:to-violet-700 rounded-2xl font-semibold text-white transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-indigo-500/50 overflow-hidden">
-                                            <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-200%] group-hover/btn:translate-x-[200%] transition-transform duration-1000" />
-                                            <span className="relative">Respond Now</span>
+                                        <Link
+                                            href={`/map?lat=${problem.coordinates.lat}&lng=${problem.coordinates.lng}&title=${encodeURIComponent(problem.title)}&category=${problem.category}&severity=${problem.severity}&location=${encodeURIComponent(problem.location)}`}
+                                            className="px-6 py-3 border border-white/20 hover:border-white/50 bg-white/5 hover:bg-white/10 rounded-xl font-medium text-white transition-all duration-200 flex items-center justify-center gap-2"
+                                        >
+                                            <svg className="w-5 h-5 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                            </svg>
+                                            <span className="opacity-90">View Location</span>
+                                        </Link>
+                                        <button className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold transition-colors duration-200 shadow-sm hover:shadow active:scale-[0.98]">
+                                            Respond Now
                                         </button>
+
                                     </div>
                                 </div>
                             </div>
@@ -481,6 +496,6 @@ export default function ProblemsPage() {
                     )}
                 </div>
             </section>
-        </main>
+        </main >
     );
 }
