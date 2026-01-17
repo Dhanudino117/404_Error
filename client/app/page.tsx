@@ -1,106 +1,101 @@
-'use client';
-
-import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { Unplug, FileText, AlertTriangle, X, Globe, BarChart3, Handshake, Zap, Target, RotateCcw } from 'lucide-react';
 
 export default function Home() {
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50">
+    <main className="relative min-h-screen bg-black overflow-hidden">
+      {/* Gradient Orbs Background */}
+      <div className="fixed inset-0 -z-10 overflow-hidden">
+        <div className="absolute top-0 left-1/4 w-[800px] h-[800px] bg-gradient-to-br from-indigo-500/30 via-violet-500/20 to-transparent rounded-full blur-3xl animate-pulse" />
+        <div className="absolute top-1/3 right-1/4 w-[600px] h-[600px] bg-gradient-to-br from-cyan-500/20 via-teal-500/10 to-transparent rounded-full blur-3xl animate-pulse delay-1000" />
+        <div className="absolute bottom-0 left-1/3 w-[700px] h-[700px] bg-gradient-to-br from-rose-500/20 via-pink-500/10 to-transparent rounded-full blur-3xl animate-pulse delay-2000" />
+      </div>
+
+      {/* Noise Texture Overlay */}
+      <div className="fixed inset-0 -z-10 opacity-[0.015] bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PC9maWx0ZXI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsdGVyPSJ1cmwoI2EpIi8+PC9zdmc+')] pointer-events-none" />
 
       {/* Hero Section */}
-      <section id="hero" className="relative min-h-screen flex items-center justify-center px-6 pt-20 overflow-hidden">
-        {/* Animated Background Elements */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-blue-400/20 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-20 right-10 w-96 h-96 bg-cyan-400/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        </div>
-
-        <div className="relative max-w-6xl mx-auto text-center z-10">
-          <div className="inline-block mb-6 px-6 py-2 bg-blue-100 rounded-full text-blue-700 font-semibold text-sm tracking-wide animate-fade-in">
-            🚨 Disaster Response Made Simple
+      <section className="relative pt-32 pb-24 px-6 lg:px-12">
+        <div className="max-w-[1400px] mx-auto text-center space-y-8">
+          <div className="inline-flex items-center gap-2 px-6 py-3 bg-white/5 backdrop-blur-xl border border-white/10 rounded-full mb-8">
+            <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+            <span className="text-sm font-semibold text-white/80">Real-time Disaster Response Platform</span>
           </div>
 
-          <h1 className="text-5xl md:text-7xl font-extrabold text-gray-900 mb-6 leading-tight">
-            Coordinate Relief Efforts
-            <span className="block bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-700 bg-clip-text text-transparent mt-2">
+          <h1 className="text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-bold tracking-tighter text-balance">
+            <span className="bg-gradient-to-br from-white via-white to-white/60 bg-clip-text text-transparent">
+              Coordinate Relief Efforts,
+            </span>
+            <br />
+            <span className="bg-gradient-to-r from-violet-400 via-indigo-400 to-cyan-400 bg-clip-text text-transparent">
               Save Lives Faster
             </span>
           </h1>
 
-          <p className="text-xl md:text-2xl text-gray-600 mb-10 max-w-3xl mx-auto leading-relaxed">
-            ReliefSync connects government agencies and NGOs in real-time during disasters.
-            One platform, unified response, lives saved.
+          <p className="text-xl md:text-2xl text-white/60 max-w-3xl mx-auto leading-relaxed">
+            A unified platform connecting government agencies, NGOs, and relief organizations to coordinate disaster response in real-time.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Link
+          <div className="flex flex-wrap items-center justify-center gap-4 pt-8">
+            <a
               href="#get-started"
-              className="group px-8 py-4 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold rounded-full shadow-2xl hover:shadow-blue-500/50 transition-all duration-300 hover:scale-105 flex items-center gap-2"
+              className="group/btn relative px-8 py-4 bg-gradient-to-r from-violet-500 to-indigo-600 hover:from-violet-600 hover:to-indigo-700 rounded-2xl font-bold text-white transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-violet-500/50 overflow-hidden"
             >
-              Get Started Now
-              <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-              </svg>
-            </Link>
-
-            <Link
+              <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-200%] group-hover/btn:translate-x-[200%] transition-transform duration-1000" />
+              <span className="relative">Get Started Now</span>
+            </a>
+            <a
               href="#features"
-              className="px-8 py-4 bg-white border-2 border-blue-600 text-blue-600 font-bold rounded-full hover:bg-blue-50 transition-all duration-300"
+              className="px-8 py-4 bg-white/5 hover:bg-white/10 backdrop-blur-xl border border-white/20 hover:border-white/30 rounded-2xl font-bold text-white transition-all duration-300"
             >
               Explore Features
-            </Link>
+            </a>
           </div>
 
-          <div className="mt-16 grid grid-cols-3 gap-8 max-w-2xl mx-auto">
-            <div className="text-center">
-              <div className="text-4xl font-bold text-blue-600">10x</div>
-              <div className="text-sm text-gray-600 mt-1">Faster Response</div>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl font-bold text-cyan-600">Real-time</div>
-              <div className="text-sm text-gray-600 mt-1">Data Sharing</div>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl font-bold text-blue-600">100%</div>
-              <div className="text-sm text-gray-600 mt-1">Coordinated</div>
-            </div>
+          {/* Stats */}
+          <div className="grid grid-cols-3 gap-8 pt-16 max-w-3xl mx-auto">
+            {[
+              { value: '10x', label: 'Faster Response' },
+              { value: 'Real-time', label: 'Data Updates' },
+              { value: '100%', label: 'Coordinated' },
+            ].map((stat, i) => (
+              <div key={i} className="space-y-2">
+                <div className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent">
+                  {stat.value}
+                </div>
+                <div className="text-sm text-white/60 font-medium">{stat.label}</div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* Problem Section */}
-      <section id="problem" className="py-24 px-6 bg-white/60 backdrop-blur-sm">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              The Crisis in Disaster Response
+      <section id="problem" className="relative py-24 px-6 lg:px-12">
+        <div className="max-w-[1400px] mx-auto">
+          <div className="text-center mb-16 space-y-4">
+            <h2 className="text-5xl md:text-6xl font-bold tracking-tight">
+              <span className="bg-gradient-to-br from-white via-white to-white/60 bg-clip-text text-transparent">
+                The Crisis in Disaster Response
+              </span>
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <p className="text-xl text-white/60 max-w-2xl mx-auto">
               Current systems are fragmented, slow, and inefficient—costing precious time and lives
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { icon: '🔌', title: 'Isolated Systems', desc: 'NGOs and agencies operate on disconnected platforms' },
-              { icon: '📄', title: 'Manual Processes', desc: 'Data sharing is slow and error-prone' },
-              { icon: '⚠️', title: 'Poor Allocation', desc: 'Resources are wasted due to lack of visibility' },
-              { icon: '❌', title: 'Missed Areas', desc: 'Critical regions get overlooked in the chaos' },
+              { icon: <Unplug className="w-12 h-12" />, title: 'Isolated Systems', desc: 'NGOs and agencies operate on disconnected platforms' },
+              { icon: <FileText className="w-12 h-12" />, title: 'Manual Processes', desc: 'Data sharing is slow and error-prone' },
+              { icon: <AlertTriangle className="w-12 h-12" />, title: 'Poor Allocation', desc: 'Resources are wasted due to lack of visibility' },
+              { icon: <X className="w-12 h-12" />, title: 'Missed Areas', desc: 'Critical regions get overlooked in the chaos' },
             ].map((item, i) => (
-              <div key={i} className="group p-6 bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-red-100">
-                <div className="text-5xl mb-4 group-hover:scale-110 transition-transform">{item.icon}</div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">{item.title}</h3>
-                <p className="text-gray-600">{item.desc}</p>
+              <div key={i} className="group p-8 bg-white/5 backdrop-blur-xl border border-red-500/20 rounded-3xl hover:bg-white/10 hover:border-red-500/40 transition-all duration-500 hover:scale-105">
+                <div className="mb-6 text-red-400 group-hover:scale-110 transition-transform duration-500">
+                  {item.icon}
+                </div>
+                <h3 className="text-xl font-bold text-white mb-3">{item.title}</h3>
+                <p className="text-white/60 leading-relaxed">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -108,102 +103,75 @@ export default function Home() {
       </section>
 
       {/* Solution Section */}
-      <section id="solution" className="py-24 px-6 bg-gradient-to-br from-blue-600 via-cyan-600 to-blue-700 text-white relative overflow-hidden">
-        <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
+      <section id="solution" className="relative py-24 px-6 lg:px-12">
+        <div className="max-w-[1400px] mx-auto">
+          <div className="p-12 md:p-16 bg-gradient-to-br from-violet-500/10 via-indigo-500/10 to-cyan-500/10 backdrop-blur-2xl border border-white/10 rounded-3xl shadow-2xl">
+            <div className="text-center mb-16 space-y-4">
+              <h2 className="text-5xl md:text-6xl font-bold tracking-tight text-white">
+                ReliefSync Solves This
+              </h2>
+              <p className="text-xl text-white/70 max-w-2xl mx-auto">
+                ReliefSync breaks down silos and enables real-time coordination
+              </p>
+            </div>
 
-        <div className="max-w-6xl mx-auto relative z-10">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              One Platform, Unified Response
-            </h2>
-            <p className="text-xl text-blue-100 max-w-2xl mx-auto">
-              ReliefSync breaks down silos and enables real-time coordination
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                icon: '🌐',
-                title: 'Centralized Hub',
-                desc: 'Government agencies publish disaster alerts and affected locations in one place',
-              },
-              {
-                icon: '📊',
-                title: 'Live Dashboard',
-                desc: 'All stakeholders monitor real-time information and resource availability',
-              },
-              {
-                icon: '🤝',
-                title: 'Seamless Collaboration',
-                desc: 'NGOs update resources like food, medical aid, and rescue teams instantly',
-              },
-            ].map((item, i) => (
-              <div key={i} className="p-8 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 hover:bg-white/20 transition-all duration-300">
-                <div className="text-6xl mb-4">{item.icon}</div>
-                <h3 className="text-2xl font-bold mb-3">{item.title}</h3>
-                <p className="text-blue-100">{item.desc}</p>
-              </div>
-            ))}
+            <div className="grid md:grid-cols-3 gap-8">
+              {[
+                {
+                  icon: <Globe className="w-14 h-14" />,
+                  title: 'Centralized Hub',
+                  desc: 'Government agencies publish disaster alerts and affected locations in one place',
+                },
+                {
+                  icon: <BarChart3 className="w-14 h-14" />,
+                  title: 'Live Dashboard',
+                  desc: 'All stakeholders monitor real-time information and resource availability',
+                },
+                {
+                  icon: <Handshake className="w-14 h-14" />,
+                  title: 'Seamless Collaboration',
+                  desc: 'NGOs update resources like food, medical aid, and rescue teams instantly',
+                },
+              ].map((item, i) => (
+                <div key={i} className="p-8 bg-white/5 backdrop-blur-md rounded-3xl border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-500 hover:scale-105">
+                  <div className="mb-6 text-violet-400 group-hover:scale-110 transition-transform duration-500">
+                    {item.icon}
+                  </div>
+                  <h3 className="text-2xl font-bold text-white mb-3">{item.title}</h3>
+                  <p className="text-white/70 leading-relaxed">{item.desc}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-24 px-6 bg-white">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Powerful Features for Critical Missions
+      <section id="features" className="relative py-24 px-6 lg:px-12">
+        <div className="max-w-[1400px] mx-auto">
+          <div className="text-center mb-16 space-y-4">
+            <h2 className="text-5xl md:text-6xl font-bold tracking-tight">
+              <span className="bg-gradient-to-br from-white via-white to-white/60 bg-clip-text text-transparent">
+                Powerful Features
+              </span>
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Built with modern technology to handle the most demanding scenarios
+            <p className="text-xl text-white/60 max-w-2xl mx-auto">
+              Everything you need for effective disaster response coordination
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
-              {
-                icon: '🔗',
-                title: 'Open REST APIs',
-                desc: 'Centralized data sharing through standardized, secure APIs',
-                color: 'blue',
-              },
-              {
-                icon: '📍',
-                title: 'Map Visualization',
-                desc: 'Real-time geospatial view of affected areas and active relief teams',
-                color: 'cyan',
-              },
-              {
-                icon: '🔐',
-                title: 'Role-Based Access',
-                desc: 'Secure authentication and permissions for government and NGO users',
-                color: 'indigo',
-              },
-              {
-                icon: '⚡',
-                title: 'Live Updates',
-                desc: 'Instant status updates for relief requests and task assignments',
-                color: 'blue',
-              },
-              {
-                icon: '📈',
-                title: 'Analytics Dashboard',
-                desc: 'Monitor disaster response metrics and resource utilization in real-time',
-                color: 'cyan',
-              },
-              {
-                icon: '🚀',
-                title: 'High Performance',
-                desc: 'Built with Next.js for lightning-fast load times during critical situations',
-                color: 'indigo',
-              },
-            ].map((item, i) => (
-              <div key={i} className="group p-8 bg-gradient-to-br from-slate-50 to-blue-50 rounded-2xl hover:shadow-2xl transition-all duration-300 border border-blue-100 hover:border-blue-300">
-                <div className="text-5xl mb-4 group-hover:scale-110 transition-transform">{item.icon}</div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-3">{item.title}</h3>
-                <p className="text-gray-600 leading-relaxed">{item.desc}</p>
+              { title: 'Open REST APIs', desc: 'Easy integration with existing systems and tools' },
+              { title: 'Map Visualization', desc: 'See disaster zones and resource deployment on interactive maps' },
+              { title: 'Role-Based Access', desc: 'Secure permissions for government, NGOs, and agencies' },
+              { title: 'Live Updates', desc: 'Real-time notifications on disaster status and resource changes' },
+              { title: 'Analytics Dashboard', desc: 'Track response efficiency and resource usage metrics' },
+              { title: 'High Performance', desc: 'Built on Next.js and MongoDB for speed and reliability' },
+            ].map((feature, i) => (
+              <div key={i} className="group p-8 bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl hover:bg-white/10 hover:border-violet-500/30 transition-all duration-500">
+                <h3 className="text-xl font-bold text-white mb-3 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-violet-400 group-hover:to-cyan-400 group-hover:bg-clip-text transition-all duration-500">{feature.title}</h3>
+                <p className="text-white/60 leading-relaxed">{feature.desc}</p>
               </div>
             ))}
           </div>
@@ -211,93 +179,90 @@ export default function Home() {
       </section>
 
       {/* Impact Section */}
-      <section id="impact" className="py-24 px-6 bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Real Impact, Measurable Results
+      <section id="impact" className="relative py-24 px-6 lg:px-12">
+        <div className="max-w-[1400px] mx-auto">
+          <div className="text-center mb-16 space-y-4">
+            <h2 className="text-5xl md:text-6xl font-bold tracking-tight">
+              <span className="bg-gradient-to-br from-white via-white to-white/60 bg-clip-text text-transparent">
+                Expected Impact
+              </span>
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <p className="text-xl text-white/60 max-w-2xl mx-auto">
               Transforming disaster response through technology
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
             {[
-              { icon: '⚡', stat: 'Faster', label: 'Response Times', color: 'blue' },
-              { icon: '🎯', stat: 'Better', label: 'Coordination', color: 'cyan' },
-              { icon: '♻️', stat: 'Less', label: 'Redundancy', color: 'indigo' },
-              { icon: '📊', stat: 'Smarter', label: 'Resource Use', color: 'blue' },
+              { icon: <Zap className="w-14 h-14" />, stat: 'Faster', label: 'Response Times', color: 'from-blue-500 to-cyan-500' },
+              { icon: <Target className="w-14 h-14" />, stat: 'Better', label: 'Coordination', color: 'from-violet-500 to-indigo-500' },
+              { icon: <RotateCcw className="w-14 h-14" />, stat: 'Less', label: 'Redundancy', color: 'from-indigo-500 to-purple-500' },
+              { icon: <BarChart3 className="w-14 h-14" />, stat: 'Smarter', label: 'Resource Use', color: 'from-cyan-500 to-teal-500' },
             ].map((item, i) => (
-              <div key={i} className="text-center p-8 bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
-                <div className="text-6xl mb-4">{item.icon}</div>
-                <div className={`text-4xl font-bold bg-gradient-to-r from-${item.color}-600 to-cyan-500 bg-clip-text text-transparent mb-2`}>
+              <div key={i} className="group text-center p-8 bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl hover:bg-white/10 hover:border-white/20 transition-all duration-500 hover:scale-105">
+                <div className="flex justify-center mb-6 text-white/80 group-hover:scale-110 transition-transform duration-500">
+                  {item.icon}
+                </div>
+                <div className={`text-5xl font-bold bg-gradient-to-r ${item.color} bg-clip-text text-transparent mb-2`}>
                   {item.stat}
                 </div>
-                <div className="text-gray-600 font-medium">{item.label}</div>
+                <div className="text-white/60 font-medium">{item.label}</div>
               </div>
             ))}
           </div>
 
-          <div className="mt-16 p-10 bg-white rounded-3xl shadow-2xl border border-blue-100">
-            <div className="grid md:grid-cols-2 gap-8 items-center">
-              <div>
-                <h3 className="text-3xl font-bold text-gray-900 mb-4">
-                  Built with Modern Technology
-                </h3>
-                <p className="text-gray-600 mb-6">
-                  ReliefSync leverages the power of Next.js, React, and MongoDB to deliver a scalable,
-                  high-performance platform that works when it matters most.
-                </p>
-                <div className="flex flex-wrap gap-3">
-                  {['Next.js', 'React', 'Tailwind CSS', 'MongoDB', 'Node.js', 'JWT Auth'].map((tech) => (
-                    <span key={tech} className="px-4 py-2 bg-blue-100 text-blue-700 rounded-full text-sm font-semibold">
-                      {tech}
-                    </span>
-                  ))}
+          {/* Tech Stack */}
+          <div className="p-12 bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl">
+            <h3 className="text-3xl font-bold text-center text-white mb-8">Built With Modern Technology</h3>
+            <div className="flex flex-wrap justify-center items-center gap-8">
+              {['Next.js', 'React', 'Tailwind CSS', 'MongoDB', 'Node.js', 'JWT Auth'].map((tech, i) => (
+                <div key={i} className="px-6 py-3 bg-white/5 border border-white/10 rounded-2xl text-white/80 font-semibold hover:bg-white/10 hover:border-violet-500/30 transition-all duration-300">
+                  {tech}
                 </div>
-              </div>
-              <div className="text-6xl text-center">
-                💻🚀🌐
-              </div>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section id="get-started" className="py-24 px-6 bg-gradient-to-r from-blue-600 via-cyan-600 to-blue-700 text-white">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            Ready to Transform Disaster Response?
-          </h2>
-          <p className="text-xl text-blue-100 mb-10 max-w-2xl mx-auto">
-            Join government agencies and NGOs already using ReliefSync to save lives and coordinate relief efforts.
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="px-10 py-4 bg-white text-blue-600 font-bold rounded-full shadow-2xl hover:shadow-white/50 transition-all duration-300 hover:scale-105">
-              Request Demo
-            </button>
-            <button className="px-10 py-4 bg-transparent border-2 border-white text-white font-bold rounded-full hover:bg-white/10 transition-all duration-300">
-              Contact Sales
-            </button>
+      <section id="get-started" className="relative py-24 px-6 lg:px-12">
+        <div className="max-w-4xl mx-auto">
+          <div className="p-16 bg-gradient-to-br from-violet-500/20 via-indigo-500/20 to-cyan-500/20 backdrop-blur-2xl border border-white/20 rounded-3xl shadow-2xl text-center space-y-8">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white">
+              Ready to Transform Disaster Response?
+            </h2>
+            <p className="text-xl text-white/70 max-w-2xl mx-auto">
+              Join us in building a more coordinated, efficient, and life-saving disaster response system.
+            </p>
+            <div className="flex flex-wrap justify-center gap-4 pt-4">
+              <a
+                href="/authentication"
+                className="group/btn relative px-10 py-5 bg-gradient-to-r from-violet-500 to-indigo-600 hover:from-violet-600 hover:to-indigo-700 rounded-2xl font-bold text-lg text-white transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-violet-500/50 overflow-hidden"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-200%] group-hover/btn:translate-x-[200%] transition-transform duration-1000" />
+                <span className="relative">Request Demo</span>
+              </a>
+              <a
+                href="/problems"
+                className="px-10 py-5 bg-white/5 hover:bg-white/10 backdrop-blur-xl border border-white/20 hover:border-white/30 rounded-2xl font-bold text-lg text-white transition-all duration-300"
+              >
+                View Problems
+              </a>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-slate-900 text-white py-12 px-6">
-        <div className="max-w-6xl mx-auto text-center">
-          <div className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent mb-4">
+      <footer className="relative py-12 px-6 lg:px-12 border-t border-white/10">
+        <div className="max-w-[1400px] mx-auto text-center">
+          <div className="text-3xl font-bold bg-gradient-to-r from-violet-400 via-indigo-400 to-cyan-400 bg-clip-text text-transparent mb-4">
             ReliefSync
           </div>
-          <p className="text-slate-400 mb-6">
-            Disaster Response Coordination System
+          <p className="text-white/40 text-sm">
+            © {new Date().getFullYear()} ReliefSync. Building better disaster response systems.
           </p>
-          <div className="text-sm text-slate-500">
-            © 2026 ReliefSync. Built with Next.js • Saving lives through technology
-          </div>
         </div>
       </footer>
     </main>
