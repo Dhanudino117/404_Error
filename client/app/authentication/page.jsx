@@ -2,9 +2,15 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/context/AuthContext';
 
 export default function AuthenticationPage() {
   const [isLogin, setIsLogin] = useState(true);
+  const router = useRouter();
+  const { login } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -12,10 +18,48 @@ export default function AuthenticationPage() {
     confirmPassword: '',
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle authentication logic here
-    console.log('Form submitted:', formData);
+    setIsLoading(true);
+    setError('');
+
+    try {
+      if (!isLogin && formData.password !== formData.confirmPassword) {
+        throw new Error("Passwords do not match");
+      }
+
+      const endpoint = isLogin ? '/api/auth/login' : '/api/auth/signup';
+      const body = isLogin 
+        ? { email: formData.email, password: formData.password }
+        : { name: formData.name, email: formData.email, password: formData.password };
+
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || 'Something went wrong');
+      }
+
+      if (isLogin) {
+        login(data.user, data.token);
+      } else {
+        // Switch to login tab after successful signup
+        setIsLogin(true);
+        setError('Account created successfully! Please log in.');
+        setFormData({ ...formData, password: '', confirmPassword: '' });
+      }
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleChange = (e) => {
@@ -169,12 +213,23 @@ export default function AuthenticationPage() {
                 </div>
               )}
 
+              {/* Error Message */}
+              {error && (
+                <div className={`p-4 rounded-xl text-sm font-medium ${error.includes('successfully') ? 'bg-green-500/10 text-green-400 border border-green-500/20' : 'bg-red-500/10 text-red-400 border border-red-500/20'}`}>
+                  {error}
+                </div>
+              )}
+
               <button
                 type="submit"
-                className="group/btn relative w-full px-8 py-4 bg-gradient-to-r from-violet-500 to-indigo-600 hover:from-violet-600 hover:to-indigo-700 rounded-2xl font-bold text-white transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl hover:shadow-violet-500/50 overflow-hidden"
+                disabled={isLoading}
+                className="group/btn relative w-full px-8 py-4 bg-gradient-to-r from-violet-500 to-indigo-600 hover:from-violet-600 hover:to-indigo-700 rounded-2xl font-bold text-white transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl hover:shadow-violet-500/50 overflow-hidden disabled:opacity-70 disabled:cursor-not-allowed"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-200%] group-hover/btn:translate-x-[200%] transition-transform duration-1000" />
-                <span className="relative text-lg">
+                <span className="relative text-lg flex items-center justify-center gap-2">
+                  {isLoading && (
+                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  )}
                   {isLogin ? 'Sign In' : 'Create Account'}
                 </span>
               </button>

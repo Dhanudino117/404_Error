@@ -4,7 +4,7 @@ import "./globals.css";
 import "leaflet/dist/leaflet.css";
 import Navbar from "./components/navbar/page";
 import Footer from "./components/footer/page";
-
+import { AuthProvider } from "@/context/AuthContext";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -28,9 +28,11 @@ export default function RootLayout({
       <body
         className={`${inter.variable} font-sans antialiased`}
       >
-        <Navbar />
-        {children}
-        <Footer />
+        <AuthProvider>
+          <Navbar />
+          {children}
+          <Footer />
+        </AuthProvider>
       </body>
     </html>
   );
