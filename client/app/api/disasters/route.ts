@@ -45,7 +45,7 @@ export async function GET(request: Request) {
 
     const data = await response.json();
     return NextResponse.json(data);
-  } catch (error) {
+  } catch (error) {         
     console.error('Error fetching Ambee disaster data:', error);
     // Return empty data instead of error to prevent page crash
     return NextResponse.json({
