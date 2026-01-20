@@ -1,207 +1,174 @@
 'use client';
 
-import Link from 'next/link';
 import { useState } from 'react';
+import Link from 'next/link';
+import { Menu, X, User, LogOut, ChevronDown, Activity, Map, HeartHandshake } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
-import { LogOut, User, ChevronDown } from 'lucide-react';
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const { user, logout } = useAuth();
   const [profileOpen, setProfileOpen] = useState(false);
 
+  const handleLogout = () => {
+    logout();
+    setProfileOpen(false);
+  };
+
   return (
-    <header className="fixed top-0 z-50 w-full">
-      <nav className="mx-auto flex max-w-full items-center justify-between px-6 lg:px-12 py-4 backdrop-blur-2xl bg-black/40 border-b border-white/10">
-        
+    <header className="fixed top-0 z-50 w-full bg-brand-beige/80 backdrop-blur-md border-b border-brand-orange/20">
+      <nav className="mx-auto flex max-w-[1400px] items-center justify-between px-6 lg:px-12 py-3">
         {/* Logo */}
         <Link
           href="/"
-          className="text-2xl md:text-3xl font-bold tracking-tighter bg-gradient-to-r from-violet-400 via-indigo-400 to-cyan-400 bg-clip-text text-transparent hover:scale-105 transition-transform duration-300"
+          className="flex items-center gap-2 text-xl font-bold tracking-tight text-brand-foreground"
         >
-          ReliefSync
+
+          <span className=' transition-all hover:text-brand-rust duration-300  hover:scale-105 hover:cursor-pointer hover:duration-300'>RELIEF SYNC</span>
         </Link>
 
         {/* Desktop Links */}
-        <div className="hidden md:flex items-center gap-8">
-          <Link
-            href="/problems"
-            className="relative text-white/70 font-medium transition-all duration-300 hover:text-white group"
-          >
-            Problems
-            <span className="absolute -bottom-1 left-0 h-[2px] w-0 bg-gradient-to-r from-violet-500 to-indigo-500 transition-all duration-300 group-hover:w-full"></span>
+        <div className="hidden lg:flex items-center gap-8">
+          <Link href="/problems" className="text-sm font-medium text-brand-foreground/70 hover:text-brand-rust transition-colors flex items-center gap-2">
+            Disasters
           </Link>
-
-          <Link
-            href="/solutions"
-            className="relative text-white/70 font-medium transition-all duration-300 hover:text-white group"
-          >
-            Solutions
-            <span className="absolute -bottom-1 left-0 h-[2px] w-0 bg-gradient-to-r from-violet-500 to-indigo-500 transition-all duration-300 group-hover:w-full"></span>
+          <Link href="/solutions" className="text-sm font-medium text-brand-foreground/70 hover:text-brand-rust transition-colors flex items-center gap-2">
+            Organizations
           </Link>
-          
-          {['Features', 'Impact'].map((item) => (
-            <a
-              key={item}
-              href={`#${item.toLowerCase()}`}
-              onClick={(e) => {
-                e.preventDefault();
-                document.getElementById(item.toLowerCase())?.scrollIntoView({ 
-                  behavior: 'smooth',
-                  block: 'start'
-                });
-              }}
-              className="relative text-white/70 font-medium transition-all duration-300 hover:text-white group cursor-pointer"
-            >
-              {item}
-              <span className="absolute -bottom-1 left-0 h-[2px] w-0 bg-gradient-to-r from-violet-500 to-indigo-500 transition-all duration-300 group-hover:w-full"></span>
-            </a>
-          ))}
+          <Link href="/map" className="text-sm font-medium text-brand-foreground/70 hover:text-brand-rust transition-colors flex items-center gap-2">
+            Live Map
+          </Link>
+        </div>
 
-          {/* Auth Buttons */}
-          <div className="flex items-center gap-3">
-            {user ? (
-              <div className="relative">
-                <button
-                  onClick={() => setProfileOpen(!profileOpen)}
-                  className="flex items-center gap-2 px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl transition-all duration-300"
-                >
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-violet-500 to-indigo-600 flex items-center justify-center text-white font-bold text-sm">
-                    {user.name.charAt(0).toUpperCase()}
-                  </div>
-                  <span className="text-white font-medium">{user.name}</span>
-                  <ChevronDown className={`w-4 h-4 text-white/60 transition-transform duration-300 ${profileOpen ? 'rotate-180' : ''}`} />
-                </button>
+        {/* Desktop Auth */}
+        <div className="hidden lg:flex items-center gap-4">
+          {user ? (
+            <div className="relative">
+              <button
+                onClick={() => setProfileOpen(!profileOpen)}
+                className="flex items-center gap-2 pl-3 pr-2 py-1.5 rounded-full border border-brand-orange/20 hover:border-brand-orange/40 bg-white/50 shadow-sm transition-all"
+              >
+                <div className="w-6 h-6 rounded-full bg-brand-orange/30 text-brand-brown flex items-center justify-center text-xs font-bold">
+                  {user.name.charAt(0)}
+                </div>
+                <span className="text-sm font-medium text-brand-foreground max-w-[100px] truncate">
+                  {user.name}
+                </span>
+                <ChevronDown className="w-4 h-4 text-brand-foreground/50" />
+              </button>
 
-                {profileOpen && (
-                  <div className="absolute top-full right-0 mt-2 w-48 bg-black/90 backdrop-blur-xl border border-white/10 rounded-xl shadow-xl overflow-hidden py-1">
-                    <div className="px-4 py-3 border-b border-white/10">
-                      <p className="text-sm text-white font-medium truncate">{user.name}</p>
-                      <p className="text-xs text-white/60 truncate">{user.email}</p>
-                    </div>
-                    <button
-                      onClick={logout}
-                      className="w-full flex items-center gap-2 px-4 py-3 text-sm text-red-400 hover:bg-white/5 transition-colors text-left"
-                    >
-                      <LogOut className="w-4 h-4" />
-                      Sign Out
-                    </button>
+              {profileOpen && (
+                <div className="absolute right-0 mt-2 w-48 rounded-xl border border-brand-orange/20 bg-white/90 backdrop-blur shadow-lg py-1 animate-in fade-in zoom-in-95 duration-200">
+                  <div className="px-4 py-2 border-b border-brand-orange/10 mb-1">
+                    <p className="text-xs text-brand-foreground/50">Signed in as</p>
+                    <p className="text-sm font-semibold text-brand-foreground truncate">{user.email}</p>
                   </div>
-                )}
-              </div>
-            ) : (
-              <>
-                <Link
-                  href="/authentication"
-                  className="px-5 py-2 text-white/80 hover:text-white font-medium transition-all duration-300 hover:bg-white/5 rounded-xl"
-                >
-                  Login
-                </Link>
-                <Link
-                  href="/authentication"
-                  className="group/btn relative px-6 py-2.5 bg-gradient-to-r from-violet-500 to-indigo-600 hover:from-violet-600 hover:to-indigo-700 rounded-xl font-semibold text-white transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-violet-500/50 overflow-hidden"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-200%] group-hover/btn:translate-x-[200%] transition-transform duration-1000" />
-                  <span className="relative">Sign Up</span>
-                </Link>
-              </>
-            )}
-          </div>
+                  <button
+                    onClick={handleLogout}
+                    className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    Sign Out
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <>
+              <Link
+                href="/authentication"
+                className="text-sm font-medium text-brand-foreground/70 hover:text-brand-rust transition-colors"
+              >
+                Log in
+              </Link>
+              <Link
+                href="/authentication"
+                className="btn-primary text-sm"
+              >
+                Sign up
+              </Link>
+            </>
+          )}
         </div>
 
         {/* Mobile Menu Button */}
         <button
           onClick={() => setOpen(!open)}
-          className="md:hidden flex flex-col gap-1.5 p-2"
-          aria-label="Toggle Menu"
+          className="lg:hidden p-2 text-brand-foreground hover:bg-brand-orange/10 rounded-lg transition-colors"
         >
-          <span className={`h-[2px] w-6 bg-white transition-all duration-300 ${open && 'rotate-45 translate-y-2'}`} />
-          <span className={`h-[2px] w-6 bg-white transition-all duration-300 ${open && 'opacity-0'}`} />
-          <span className={`h-[2px] w-6 bg-white transition-all duration-300 ${open && '-rotate-45 -translate-y-2'}`} />
+          {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
       </nav>
 
       {/* Mobile Menu */}
       {open && (
-        <div className="md:hidden bg-black/95 backdrop-blur-2xl border-b border-white/10 shadow-2xl">
-          <div className="flex flex-col gap-6 px-6 py-8">
+        <div className="lg:hidden border-t border-brand-orange/20 bg-brand-beige">
+          <div className="flex flex-col p-4 space-y-4">
             <Link
               href="/problems"
+              className="flex items-center gap-3 px-4 py-3 rounded-lg text-brand-foreground/80 hover:bg-brand-orange/10 hover:text-brand-rust font-medium transition-colors"
               onClick={() => setOpen(false)}
-              className="text-lg font-semibold text-white/70 hover:text-white transition-all duration-300 hover:translate-x-1"
             >
-              Problems
+              <Activity className="w-5 h-5" />
+              Disasters
             </Link>
-
             <Link
               href="/solutions"
+              className="flex items-center gap-3 px-4 py-3 rounded-lg text-brand-foreground/80 hover:bg-brand-sage/20 hover:text-brand-olive font-medium transition-colors"
               onClick={() => setOpen(false)}
-              className="text-lg font-semibold text-white/70 hover:text-white transition-all duration-300 hover:translate-x-1"
             >
-              Solutions
+              <HeartHandshake className="w-5 h-5" />
+              Organizations
             </Link>
-            
-            {['Features', 'Impact'].map((item) => (
-              <a
-                key={item}
-                href={`#${item.toLowerCase()}`}
-                onClick={(e) => {
-                  e.preventDefault();
-                  setOpen(false);
-                  setTimeout(() => {
-                    document.getElementById(item.toLowerCase())?.scrollIntoView({ 
-                      behavior: 'smooth',
-                      block: 'start'
-                    });
-                  }, 100);
-                }}
-                className="text-lg font-semibold text-white/70 hover:text-white transition-all duration-300 hover:translate-x-1 cursor-pointer"
-              >
-                {item}
-              </a>
-            ))}
+            <Link
+              href="/map"
+              className="flex items-center gap-3 px-4 py-3 rounded-lg text-brand-foreground/80 hover:bg-brand-sage/20 hover:text-brand-olive font-medium transition-colors"
+              onClick={() => setOpen(false)}
+            >
+              <Map className="w-5 h-5" />
+              Live Map
+            </Link>
 
-            {/* Mobile Auth Buttons */}
-            <div className="flex flex-col gap-3 pt-4 border-t border-white/10">
+            <div className="border-t border-brand-sage/20 pt-4 mt-2">
               {user ? (
-                <>
-                  <div className="flex items-center gap-3 px-2 py-2">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-violet-500 to-indigo-600 flex items-center justify-center text-white font-bold">
-                      {user.name.charAt(0).toUpperCase()}
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3 px-4">
+                    <div className="w-8 h-8 rounded-full bg-brand-lime/50 text-brand-olive flex items-center justify-center font-bold">
+                      {user.name.charAt(0)}
                     </div>
                     <div>
-                      <p className="text-white font-semibold">{user.name}</p>
-                      <p className="text-white/60 text-xs">{user.email}</p>
+                      <p className="font-medium text-brand-foreground">{user.name}</p>
+                      <p className="text-sm text-brand-foreground/50">{user.email}</p>
                     </div>
                   </div>
                   <button
                     onClick={() => {
-                      logout();
+                      handleLogout();
                       setOpen(false);
                     }}
-                    className="flex items-center justify-center gap-2 px-6 py-3 text-center text-red-400 hover:text-red-300 font-semibold border border-red-500/20 rounded-xl hover:bg-red-500/10 transition-all duration-300"
+                    className="w-full flex items-center gap-2 px-4 py-3 rounded-lg text-red-600 hover:bg-red-50 font-medium transition-colors"
                   >
                     <LogOut className="w-5 h-5" />
                     Sign Out
                   </button>
-                </>
+                </div>
               ) : (
-                <>
+                <div className="flex flex-col gap-3">
                   <Link
                     href="/authentication"
+                    className="w-full btn-secondary text-center justify-center"
                     onClick={() => setOpen(false)}
-                    className="px-6 py-3 text-center text-white/80 hover:text-white font-semibold border border-white/20 rounded-xl hover:bg-white/5 transition-all duration-300"
                   >
-                    Login
+                    Log in
                   </Link>
                   <Link
                     href="/authentication"
+                    className="w-full btn-primary text-center justify-center"
                     onClick={() => setOpen(false)}
-                    className="px-6 py-3 text-center bg-gradient-to-r from-violet-500 to-indigo-600 rounded-xl font-semibold text-white shadow-lg shadow-violet-500/30 hover:shadow-violet-500/50 transition-all duration-300"
                   >
-                    Sign Up
+                    Sign up
                   </Link>
-                </>
+                </div>
               )}
             </div>
           </div>
