@@ -70,20 +70,10 @@ export default function AuthenticationPage() {
   };
 
   return (
-    <main className="relative min-h-screen bg-black overflow-hidden flex items-center justify-center">
-      {/* Gradient Orbs Background */}
-      <div className="fixed inset-0 -z-10 overflow-hidden">
-        <div className="absolute top-0 left-1/4 w-[800px] h-[800px] bg-gradient-to-br from-violet-500/30 via-purple-500/20 to-transparent rounded-full blur-3xl animate-pulse" />
-        <div className="absolute top-1/3 right-1/4 w-[600px] h-[600px] bg-gradient-to-br from-cyan-500/20 via-blue-500/10 to-transparent rounded-full blur-3xl animate-pulse delay-1000" />
-        <div className="absolute bottom-0 left-1/2 w-[700px] h-[700px] bg-gradient-to-br from-indigo-500/20 via-violet-500/10 to-transparent rounded-full blur-3xl animate-pulse delay-2000" />
-      </div>
-
-      {/* Noise Texture */}
-      <div className="fixed inset-0 -z-10 opacity-[0.015] bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PC9maWx0ZXI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsdGVyPSJ1cmwoI2EpIi8+PC9zdmc+')] pointer-events-none" />
-
-      <div className="w-full max-w-md px-6">
+    <main className="relative min-h-screen bg-brand-beige overflow-hidden flex items-center justify-center">
+      <div className="w-full max-w-md px-6 py-12">
         {/* Back Button */}
-        <Link href="/" className="group inline-flex items-center gap-2 mb-8 text-white/60 hover:text-white transition-all duration-300">
+        <Link href="/" className="group inline-flex items-center gap-2 mb-8 text-brand-foreground/60 hover:text-brand-rust transition-all duration-300">
           <svg className="w-5 h-5 group-hover:-translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>
@@ -91,31 +81,26 @@ export default function AuthenticationPage() {
         </Link>
 
         {/* Auth Card */}
-        <div className="relative p-8 md:p-12 bg-white/5 backdrop-blur-2xl border border-white/10 rounded-3xl shadow-2xl">
-          {/* Gradient Glow Effect */}
-          <div className="absolute inset-0 bg-gradient-to-br from-violet-500/10 via-transparent to-cyan-500/10 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
+        <div className="relative p-8 md:p-12 bg-white/60 backdrop-blur-xl border border-brand-orange/20 rounded-3xl shadow-xl">
           <div className="relative space-y-8">
             {/* Header */}
             <div className="text-center space-y-2">
-              <h1 className="text-4xl md:text-5xl font-bold tracking-tighter">
-                <span className="bg-gradient-to-r from-white via-white to-white/60 bg-clip-text text-transparent">
-                  {isLogin ? 'Welcome Back' : 'Create Account'}
-                </span>
+              <h1 className="text-4xl md:text-5xl font-bold tracking-tighter text-brand-foreground">
+                {isLogin ? 'Welcome Back' : 'Create Account'}
               </h1>
-              <p className="text-white/60 text-lg">
+              <p className="text-brand-foreground/70 text-lg">
                 {isLogin ? 'Sign in to continue to ReliefSync' : 'Join ReliefSync to coordinate relief efforts'}
               </p>
             </div>
 
             {/* Toggle Tabs */}
-            <div className="flex gap-2 p-1 bg-white/5 rounded-2xl border border-white/10">
+            <div className="flex gap-2 p-1 bg-brand-beige rounded-2xl border border-brand-orange/10">
               <button
                 onClick={() => setIsLogin(true)}
                 className={`flex-1 px-6 py-3 rounded-xl font-semibold transition-all duration-300 ${
                   isLogin
-                    ? 'bg-gradient-to-r from-violet-500 to-indigo-500 text-white shadow-lg shadow-violet-500/50'
-                    : 'text-white/60 hover:text-white hover:bg-white/5'
+                    ? 'bg-white text-brand-rust shadow-md'
+                    : 'text-brand-foreground/60 hover:text-brand-rust hover:bg-white/50'
                 }`}
               >
                 Login
@@ -124,8 +109,8 @@ export default function AuthenticationPage() {
                 onClick={() => setIsLogin(false)}
                 className={`flex-1 px-6 py-3 rounded-xl font-semibold transition-all duration-300 ${
                   !isLogin
-                    ? 'bg-gradient-to-r from-violet-500 to-indigo-500 text-white shadow-lg shadow-violet-500/50'
-                    : 'text-white/60 hover:text-white hover:bg-white/5'
+                    ? 'bg-white text-brand-rust shadow-md'
+                    : 'text-brand-foreground/60 hover:text-brand-rust hover:bg-white/50'
                 }`}
               >
                 Sign Up
@@ -136,7 +121,7 @@ export default function AuthenticationPage() {
             <form onSubmit={handleSubmit} className="space-y-5">
               {!isLogin && (
                 <div className="space-y-2">
-                  <label className="block text-sm font-semibold text-white/80 tracking-wide uppercase">
+                  <label className="block text-sm font-semibold text-brand-foreground/80 tracking-wide uppercase">
                     Full Name
                   </label>
                   <input
@@ -145,14 +130,14 @@ export default function AuthenticationPage() {
                     value={formData.name}
                     onChange={handleChange}
                     required={!isLogin}
-                    className="w-full px-5 py-4 bg-white/5 border border-white/10 rounded-2xl text-white placeholder:text-white/40 focus:outline-none focus:border-violet-500/50 focus:bg-white/10 transition-all duration-300"
+                    className="w-full px-5 py-4 bg-white border border-brand-orange/20 rounded-2xl text-brand-foreground placeholder:text-brand-foreground/40 focus:outline-none focus:border-brand-rust focus:ring-1 focus:ring-brand-rust/20 transition-all duration-300"
                     placeholder="Enter your full name"
                   />
                 </div>
               )}
 
               <div className="space-y-2">
-                <label className="block text-sm font-semibold text-white/80 tracking-wide uppercase">
+                <label className="block text-sm font-semibold text-brand-foreground/80 tracking-wide uppercase">
                   Email Address
                 </label>
                 <input
@@ -161,13 +146,13 @@ export default function AuthenticationPage() {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="w-full px-5 py-4 bg-white/5 border border-white/10 rounded-2xl text-white placeholder:text-white/40 focus:outline-none focus:border-violet-500/50 focus:bg-white/10 transition-all duration-300"
+                  className="w-full px-5 py-4 bg-white border border-brand-orange/20 rounded-2xl text-brand-foreground placeholder:text-brand-foreground/40 focus:outline-none focus:border-brand-rust focus:ring-1 focus:ring-brand-rust/20 transition-all duration-300"
                   placeholder="Enter your email"
                 />
               </div>
 
               <div className="space-y-2">
-                <label className="block text-sm font-semibold text-white/80 tracking-wide uppercase">
+                <label className="block text-sm font-semibold text-brand-foreground/80 tracking-wide uppercase">
                   Password
                 </label>
                 <input
@@ -176,14 +161,14 @@ export default function AuthenticationPage() {
                   value={formData.password}
                   onChange={handleChange}
                   required
-                  className="w-full px-5 py-4 bg-white/5 border border-white/10 rounded-2xl text-white placeholder:text-white/40 focus:outline-none focus:border-violet-500/50 focus:bg-white/10 transition-all duration-300"
+                  className="w-full px-5 py-4 bg-white border border-brand-orange/20 rounded-2xl text-brand-foreground placeholder:text-brand-foreground/40 focus:outline-none focus:border-brand-rust focus:ring-1 focus:ring-brand-rust/20 transition-all duration-300"
                   placeholder="Enter your password"
                 />
               </div>
 
               {!isLogin && (
                 <div className="space-y-2">
-                  <label className="block text-sm font-semibold text-white/80 tracking-wide uppercase">
+                  <label className="block text-sm font-semibold text-brand-foreground/80 tracking-wide uppercase">
                     Confirm Password
                   </label>
                   <input
@@ -192,7 +177,7 @@ export default function AuthenticationPage() {
                     value={formData.confirmPassword}
                     onChange={handleChange}
                     required={!isLogin}
-                    className="w-full px-5 py-4 bg-white/5 border border-white/10 rounded-2xl text-white placeholder:text-white/40 focus:outline-none focus:border-violet-500/50 focus:bg-white/10 transition-all duration-300"
+                    className="w-full px-5 py-4 bg-white border border-brand-orange/20 rounded-2xl text-brand-foreground placeholder:text-brand-foreground/40 focus:outline-none focus:border-brand-rust focus:ring-1 focus:ring-brand-rust/20 transition-all duration-300"
                     placeholder="Confirm your password"
                   />
                 </div>
@@ -200,14 +185,14 @@ export default function AuthenticationPage() {
 
               {isLogin && (
                 <div className="flex items-center justify-between text-sm">
-                  <label className="flex items-center gap-2 text-white/60 cursor-pointer hover:text-white transition-colors">
+                  <label className="flex items-center gap-2 text-brand-foreground/70 cursor-pointer hover:text-brand-rust transition-colors">
                     <input
                       type="checkbox"
-                      className="w-4 h-4 rounded border-white/20 bg-white/5 text-violet-500 focus:ring-violet-500/50"
+                      className="w-4 h-4 rounded border-brand-orange/30 bg-white text-brand-rust focus:ring-brand-rust/50"
                     />
                     <span>Remember me</span>
                   </label>
-                  <a href="#" className="text-violet-400 hover:text-violet-300 font-medium transition-colors">
+                  <a href="#" className="text-brand-rust hover:text-brand-orange font-medium transition-colors">
                     Forgot password?
                   </a>
                 </div>
@@ -215,7 +200,7 @@ export default function AuthenticationPage() {
 
               {/* Error Message */}
               {error && (
-                <div className={`p-4 rounded-xl text-sm font-medium ${error.includes('successfully') ? 'bg-green-500/10 text-green-400 border border-green-500/20' : 'bg-red-500/10 text-red-400 border border-red-500/20'}`}>
+                <div className={`p-4 rounded-xl text-sm font-medium ${error.includes('successfully') ? 'bg-green-100 text-green-700 border border-green-200' : 'bg-red-100 text-red-700 border border-red-200'}`}>
                   {error}
                 </div>
               )}
@@ -223,10 +208,9 @@ export default function AuthenticationPage() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="group/btn relative w-full px-8 py-4 bg-gradient-to-r from-violet-500 to-indigo-600 hover:from-violet-600 hover:to-indigo-700 rounded-2xl font-bold text-white transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl hover:shadow-violet-500/50 overflow-hidden disabled:opacity-70 disabled:cursor-not-allowed"
+                className="btn-primary w-full text-lg shadow-xl shadow-brand-rust/20 hover:scale-[1.02]"
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-200%] group-hover/btn:translate-x-[200%] transition-transform duration-1000" />
-                <span className="relative text-lg flex items-center justify-center gap-2">
+                <span className="relative flex items-center justify-center gap-2">
                   {isLoading && (
                     <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                   )}
@@ -238,10 +222,10 @@ export default function AuthenticationPage() {
             {/* Divider */}
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-white/10"></div>
+                <div className="w-full border-t border-brand-orange/20"></div>
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-4 bg-black/50 text-white/60 font-medium">Or continue with</span>
+                <span className="px-4 bg-white/60 backdrop-blur rounded-full text-brand-foreground/60 font-medium">Or continue with</span>
               </div>
             </div>
 
@@ -249,7 +233,7 @@ export default function AuthenticationPage() {
             <div className="grid grid-cols-2 gap-4">
               <button
                 type="button"
-                className="px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-2xl text-white font-semibold transition-all duration-300 hover:scale-105 flex items-center justify-center gap-2"
+                className="px-6 py-3 bg-white border border-brand-orange/20 hover:bg-brand-orange/5 rounded-2xl text-brand-foreground font-semibold transition-all duration-300 hover:scale-105 flex items-center justify-center gap-2"
               >
                 <svg className="w-5 h-5" viewBox="0 0 24 24">
                   <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -261,7 +245,7 @@ export default function AuthenticationPage() {
               </button>
               <button
                 type="button"
-                className="px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-2xl text-white font-semibold transition-all duration-300 hover:scale-105 flex items-center justify-center gap-2"
+                className="px-6 py-3 bg-white border border-brand-orange/20 hover:bg-brand-orange/5 rounded-2xl text-brand-foreground font-semibold transition-all duration-300 hover:scale-105 flex items-center justify-center gap-2"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
@@ -271,11 +255,11 @@ export default function AuthenticationPage() {
             </div>
 
             {/* Footer */}
-            <p className="text-center text-sm text-white/60">
+            <p className="text-center text-sm text-brand-foreground/60">
               {isLogin ? "Don't have an account? " : "Already have an account? "}
               <button
                 onClick={() => setIsLogin(!isLogin)}
-                className="text-violet-400 hover:text-violet-300 font-semibold transition-colors"
+                className="text-brand-rust hover:text-brand-orange font-semibold transition-colors"
               >
                 {isLogin ? 'Sign up' : 'Sign in'}
               </button>
@@ -284,11 +268,11 @@ export default function AuthenticationPage() {
         </div>
 
         {/* Terms */}
-        <p className="mt-6 text-center text-xs text-white/40">
+        <p className="mt-6 text-center text-xs text-brand-foreground/40">
           By continuing, you agree to ReliefSync's{' '}
-          <a href="#" className="text-white/60 hover:text-white transition-colors">Terms of Service</a>
+          <a href="#" className="text-brand-foreground/60 hover:text-brand-rust transition-colors">Terms of Service</a>
           {' '}and{' '}
-          <a href="#" className="text-white/60 hover:text-white transition-colors">Privacy Policy</a>
+          <a href="#" className="text-brand-foreground/60 hover:text-brand-rust transition-colors">Privacy Policy</a>
         </p>
       </div>
     </main>

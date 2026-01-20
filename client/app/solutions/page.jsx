@@ -144,32 +144,32 @@ export default function SolutionsPage() {
   const getStatusColor = (status) => {
     switch (status) {
       case 'Available':
-        return 'bg-gradient-to-r from-emerald-500/20 to-teal-500/20 text-emerald-400 border-emerald-500/30';
+        return 'bg-emerald-100 text-emerald-700 border-emerald-200';
       case 'Partially Available':
-        return 'bg-gradient-to-r from-yellow-500/20 to-amber-500/20 text-yellow-400 border-yellow-500/30';
+        return 'bg-amber-100 text-amber-700 border-amber-200';
       case 'Busy':
-        return 'bg-gradient-to-r from-red-500/20 to-rose-500/20 text-red-400 border-red-500/30';
+        return 'bg-red-100 text-red-700 border-red-200';
       default:
-        return 'bg-white/5 text-white/60 border-white/10';
+        return 'bg-slate-100 text-slate-600 border-slate-200';
     }
   };
 
   const getCapacityBadge = (capacity) => {
     switch (capacity) {
       case 'Very Large':
-        return 'bg-purple-500/10 text-purple-300 border-purple-500/30';
+        return 'bg-purple-100 text-purple-700 border-purple-200';
       case 'Large':
-        return 'bg-blue-500/10 text-blue-300 border-blue-500/30';
+        return 'bg-blue-100 text-blue-700 border-blue-200';
       case 'Medium':
-        return 'bg-cyan-500/10 text-cyan-300 border-cyan-500/30';
+        return 'bg-cyan-100 text-cyan-700 border-cyan-200';
       default:
-        return 'bg-white/5 text-white/50 border-white/10';
+        return 'bg-slate-100 text-slate-600 border-slate-200';
     }
   };
 
   const getTypeIcon = (type) => {
     const iconClass = "w-12 h-12 md:w-14 md:h-14";
-    const iconColor = "text-white";
+    const iconColor = "text-brand-rust";
     
     switch (type) {
       case 'Government':
@@ -184,21 +184,11 @@ export default function SolutionsPage() {
   };
 
   return (
-    <main className="relative min-h-screen bg-black overflow-hidden">
-      {/* Gradient Orbs Background */}
-      <div className="fixed inset-0 -z-10 overflow-hidden">
-        <div className="absolute top-0 right-1/4 w-[800px] h-[800px] bg-gradient-to-br from-blue-500/20 via-cyan-500/10 to-transparent rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/3 left-1/4 w-[600px] h-[600px] bg-gradient-to-br from-violet-500/20 via-purple-500/10 to-transparent rounded-full blur-3xl animate-pulse delay-1000" />
-        <div className="absolute top-1/2 left-1/2 w-[500px] h-[500px] bg-gradient-to-br from-emerald-500/10 via-teal-500/5 to-transparent rounded-full blur-3xl animate-pulse delay-2000" />
-      </div>
-
-      {/* Noise Texture Overlay */}
-      <div className="fixed inset-0 -z-10 opacity-[0.015] bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PC9maWx0ZXI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsdGVyPSJ1cmwoI2EpIi8+PC9zdmc+')] pointer-events-none" />
-
+    <main className="relative min-h-screen bg-brand-beige overflow-hidden">
       {/* Header */}
-      <section className="relative pt-32 pb-16 px-6 lg:px-12">
+      <section className="relative pt-32 pb-16 px-6 lg:px-12 bg-white/40 border-b border-brand-orange/10">
         <div className="max-w-[1400px] mx-auto">
-          <Link href="/" className="group inline-flex items-center gap-2 mb-8 text-white/60 hover:text-white transition-all duration-300">
+          <Link href="/" className="group inline-flex items-center gap-2 mb-8 text-brand-foreground/60 hover:text-brand-rust transition-all duration-300">
             <svg className="w-5 h-5 group-hover:-translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
@@ -207,29 +197,26 @@ export default function SolutionsPage() {
 
           <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
             <div className="flex-1 space-y-6">
-              <h1 className="text-5xl md:text-7xl font-bold tracking-tighter text-balance">
-                <span className="bg-gradient-to-br from-white via-white to-white/60 bg-clip-text text-transparent">
-                  Relief
-                </span>
+              <h1 className="text-5xl md:text-7xl font-bold tracking-tighter text-brand-foreground">
+                Relief
                 <br />
-                <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-emerald-400 bg-clip-text text-transparent">
+                <span className="text-brand-rust">
                   Organizations
                 </span>
               </h1>
 
-              <p className="text-xl md:text-2xl text-white/60 max-w-2xl font-light leading-relaxed">
+              <p className="text-xl md:text-2xl text-brand-foreground/70 max-w-2xl font-light leading-relaxed">
                 Connect with verified organizations ready to deploy resources for disaster response.
               </p>
             </div>
 
             <Link
               href="/problems"
-              className="group relative px-8 py-4 bg-gradient-to-r from-blue-500/10 to-indigo-500/10 hover:from-blue-500/20 hover:to-indigo-500/20 backdrop-blur-xl border border-blue-500/20 rounded-2xl transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-blue-500/20"
+              className="group relative px-8 py-4 bg-brand-rust text-white rounded-2xl transition-all duration-300 hover:shadow-lg hover:shadow-brand-rust/20 hover:scale-[1.02]"
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-blue-500/10 to-blue-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl" />
               <div className="relative flex items-center gap-3">
-                <span className="font-semibold text-white">View Active Problems</span>
-                <svg className="w-5 h-5 text-white/60 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <span className="font-semibold">View Active Problems</span>
+                <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
               </div>
@@ -239,27 +226,24 @@ export default function SolutionsPage() {
       </section>
 
       {/* Stats Overview */}
-      <section className="relative px-6 lg:px-12 pb-16">
+      <section className="relative px-6 lg:px-12 py-12">
         <div className="max-w-[1400px] mx-auto">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
             {[
-              { label: 'Total Organizations', value: mockSolutions.length, gradient: 'from-blue-500 to-indigo-500', sublabel: 'Verified Partners' },
-              { label: 'Available Now', value: mockSolutions.filter((s) => s.status === 'Available').length, gradient: 'from-emerald-500 to-teal-500', sublabel: 'Ready for Deployment' },
-              { label: 'Active Deployments', value: mockSolutions.reduce((sum, s) => sum + s.currentDeployments, 0), gradient: 'from-violet-500 to-purple-500', sublabel: 'Ongoing Missions' },
-              { label: 'Resource Types', value: mockSolutions.reduce((sum, s) => sum + s.availableResources.length, 0), gradient: 'from-cyan-500 to-sky-500', sublabel: 'Equipment & Teams' },
+              { label: 'Total Organizations', value: mockSolutions.length, sublabel: 'Verified Partners' },
+              { label: 'Available Now', value: mockSolutions.filter((s) => s.status === 'Available').length, sublabel: 'Ready for Deployment' },
+              { label: 'Active Deployments', value: mockSolutions.reduce((sum, s) => sum + s.currentDeployments, 0), sublabel: 'Ongoing Missions' },
+              { label: 'Resource Types', value: mockSolutions.reduce((sum, s) => sum + s.availableResources.length, 0), sublabel: 'Equipment & Teams' },
             ].map((stat, i) => (
               <div
                 key={i}
-                className="group relative p-6 md:p-8 bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl hover:bg-white/10 hover:border-white/20 transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl overflow-hidden"
+                className="p-6 flex flex-col items-center text-center md:items-start md:text-left card"
               >
-                <div className={`absolute inset-0 bg-gradient-to-br ${stat.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500`} />
-                <div className="relative space-y-2">
-                  <div className={`text-4xl md:text-5xl font-bold bg-gradient-to-br ${stat.gradient} bg-clip-text text-transparent`}>
-                    {stat.value}
-                  </div>
-                  <div className="text-white/60 font-medium text-sm tracking-wide uppercase">{stat.label}</div>
-                  <div className="text-white/40 text-xs">{stat.sublabel}</div>
+                <div className="text-4xl md:text-5xl font-bold text-brand-rust mb-2">
+                  {stat.value}
                 </div>
+                <div className="text-brand-foreground font-semibold text-sm uppercase tracking-wide opacity-80">{stat.label}</div>
+                <div className="text-brand-foreground/50 text-xs">{stat.sublabel}</div>
               </div>
             ))}
           </div>
@@ -267,21 +251,21 @@ export default function SolutionsPage() {
       </section>
 
       {/* Filters */}
-      <section className="relative px-6 lg:px-12 pb-16">
+      <section className="relative px-6 lg:px-12 pb-12">
         <div className="max-w-[1400px] mx-auto">
-          <div className="p-8 md:p-12 bg-white/5 backdrop-blur-2xl border border-white/10 rounded-3xl shadow-2xl">
+          <div className="p-8 bg-white/70 backdrop-blur-sm border border-brand-orange/20 rounded-2xl shadow-sm">
             <div className="grid lg:grid-cols-2 gap-8 md:gap-12">
               <div>
-                <label className="block text-sm font-bold text-white/80 mb-4 tracking-wide uppercase">Organization Type</label>
+                <label className="block text-sm font-bold text-brand-foreground/70 mb-4 tracking-wide uppercase">Organization Type</label>
                 <div className="flex flex-wrap gap-3">
                   {organizationTypes.map((type) => (
                     <button
                       key={type}
                       onClick={() => setSelectedType(type)}
-                      className={`px-6 py-3 rounded-2xl font-semibold text-sm transition-all duration-300 hover:scale-105 ${
+                      className={`px-6 py-3 rounded-lg font-semibold text-sm transition-all duration-200 ${
                         selectedType === type
-                          ? 'bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-lg shadow-blue-500/50'
-                          : 'bg-white/5 text-white/70 hover:bg-white/10 hover:text-white border border-white/10'
+                          ? 'bg-brand-rust text-white shadow-md'
+                          : 'bg-white border border-brand-orange/20 text-brand-foreground/70 hover:bg-brand-orange/10'
                       }`}
                     >
                       {type}
@@ -291,16 +275,16 @@ export default function SolutionsPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-bold text-white/80 mb-4 tracking-wide uppercase">Specialization</label>
+                <label className="block text-sm font-bold text-brand-foreground/70 mb-4 tracking-wide uppercase">Specialization</label>
                 <div className="flex flex-wrap gap-3">
                   {specializations.map((spec) => (
                     <button
                       key={spec}
                       onClick={() => setSelectedSpecialization(spec)}
-                      className={`px-6 py-3 rounded-2xl font-semibold text-sm transition-all duration-300 hover:scale-105 ${
+                      className={`px-6 py-3 rounded-lg font-semibold text-sm transition-all duration-200 ${
                         selectedSpecialization === spec
-                          ? 'bg-gradient-to-r from-violet-500 to-purple-500 text-white shadow-lg shadow-violet-500/50'
-                          : 'bg-white/5 text-white/70 hover:bg-white/10 hover:text-white border border-white/10'
+                          ? 'bg-brand-rust text-white shadow-md'
+                          : 'bg-white border border-brand-orange/20 text-brand-foreground/70 hover:bg-brand-orange/10'
                       }`}
                     >
                       {spec}
@@ -320,37 +304,34 @@ export default function SolutionsPage() {
             {filteredSolutions.map((solution) => (
               <div
                 key={solution.id}
-                className="group relative p-8 md:p-12 bg-white/5 backdrop-blur-2xl border border-white/10 rounded-2xl hover:bg-white/10 hover:border-white/20 transition-all duration-500 hover:scale-[1.01] hover:shadow-2xl overflow-hidden"
+                className="group relative p-8 md:p-12 bg-white card hover:shadow-lg transition-all duration-300"
               >
-                {/* Background gradient on hover */}
-                <div className="absolute inset-0 transition-all duration-500 rounded-3xl" />
-
                 <div className="relative flex flex-col lg:flex-row lg:items-start gap-8">
                   {/* Left Section */}
                   <div className="flex-1 space-y-6">
                     <div className="flex items-start gap-6">
-                      <div className="text-7xl group-hover:scale-110 transition-transform duration-500 opacity-80 group-hover:opacity-100">
+                      <div className="p-4 rounded-2xl bg-brand-beige border border-brand-orange/20">
                         {getTypeIcon(solution.type)}
                       </div>
 
                       <div className="flex-1 space-y-4">
                         <div className="flex flex-wrap items-center gap-3">
-                          <h3 className="text-3xl md:text-4xl font-bold text-white tracking-tight group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-white/60 group-hover:bg-clip-text transition-all duration-500">
+                          <h3 className="text-3xl md:text-4xl font-bold text-brand-foreground group-hover:text-brand-rust transition-colors duration-300">
                             {solution.organizationName}
                           </h3>
 
                           <span className={`relative px-4 py-2 ${getStatusColor(solution.status)} rounded-full border`}>
                             <span className="relative flex items-center gap-2 text-xs font-bold uppercase tracking-wider">
                               <span className={`w-2 h-2 rounded-full animate-pulse ${
-                                solution.status === 'Available' ? 'bg-emerald-400' : 
-                                solution.status === 'Busy' ? 'bg-red-400' : 'bg-yellow-400'
+                                solution.status === 'Available' ? 'bg-emerald-500' : 
+                                solution.status === 'Busy' ? 'bg-red-500' : 'bg-amber-500'
                               }`}></span>
                               {solution.status}
                             </span>
                           </span>
                         </div>
 
-                        <div className="flex flex-wrap items-center gap-4 md:gap-6 text-white/60">
+                        <div className="flex flex-wrap items-center gap-4 md:gap-6 text-brand-foreground/60">
                           <span className="flex items-center gap-2 text-sm">
                             <Building2 className="w-4 h-4" />
                             {solution.type}
@@ -367,12 +348,12 @@ export default function SolutionsPage() {
 
                         <div className="grid md:grid-cols-2 gap-8">
                           <div className="space-y-3">
-                            <div className="text-sm font-bold text-white/80 tracking-wide uppercase">Resources Available</div>
+                            <div className="text-sm font-bold text-brand-foreground/50 tracking-wide uppercase">Resources Available</div>
                             <div className="flex flex-wrap gap-2">
                               {solution.availableResources.map((resource, idx) => (
                                 <span
                                   key={idx}
-                                  className="px-4 py-2 bg-blue-500/10 border border-blue-500/30 text-blue-300 rounded-xl text-sm font-medium backdrop-blur-xl hover:bg-blue-500/20 transition-all duration-300"
+                                  className="px-3 py-1.5 bg-brand-orange/10 border border-brand-orange/20 text-brand-brown rounded-md text-sm font-semibold"
                                 >
                                   {resource}
                                 </span>
@@ -381,12 +362,12 @@ export default function SolutionsPage() {
                           </div>
 
                           <div className="space-y-3">
-                            <div className="text-sm font-bold text-white/80 tracking-wide uppercase">Can Help With</div>
+                            <div className="text-sm font-bold text-brand-foreground/50 tracking-wide uppercase">Can Help With</div>
                             <div className="flex flex-wrap gap-2">
                               {solution.activeIn.map((item, idx) => (
                                 <span
                                   key={idx}
-                                  className="px-4 py-2 bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 rounded-xl text-sm font-medium backdrop-blur-xl hover:bg-emerald-500/20 transition-all duration-300"
+                                  className="px-3 py-1.5 bg-brand-rust/10 border border-brand-rust/20 text-brand-rust rounded-md text-sm font-semibold"
                                 >
                                   {item}
                                 </span>
@@ -395,17 +376,17 @@ export default function SolutionsPage() {
                           </div>
                         </div>
 
-                        <div className="flex flex-wrap gap-6 pt-4 border-t border-white/5">
-                          <div className="flex items-center gap-3 text-white/70">
-                            <div className="p-2 bg-white/5 rounded-lg">
+                        <div className="flex flex-wrap gap-6 pt-4 border-t border-brand-orange/10">
+                          <div className="flex items-center gap-3 text-brand-foreground/70">
+                            <div className="p-2 bg-brand-beige rounded-lg">
                               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                               </svg>
                             </div>
                             <span className="font-mono text-sm">{solution.contactNumber}</span>
                           </div>
-                          <div className="flex items-center gap-3 text-white/70">
-                            <div className="p-2 bg-white/5 rounded-lg">
+                          <div className="flex items-center gap-3 text-brand-foreground/70">
+                            <div className="p-2 bg-brand-beige rounded-lg">
                               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                               </svg>
@@ -424,10 +405,13 @@ export default function SolutionsPage() {
                     </span>
                     
                     <div className="flex flex-col gap-3 w-full lg:w-auto mt-4">
-                      <button className="px-6 py-4 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-bold transition-all duration-300 shadow-lg shadow-blue-600/20 hover:shadow-blue-600/40 hover:-translate-y-0.5">
+                      <Link 
+                        href={`/report?orgName=${encodeURIComponent(solution.organizationName)}&orgEmail=${encodeURIComponent(solution.email)}&orgPhone=${encodeURIComponent(solution.contactNumber)}`}
+                        className="btn-primary w-full text-center"
+                      >
                         Request Support
-                      </button>
-                      <button className="px-6 py-4 bg-white/5 hover:bg-white/10 text-white border border-white/10 hover:border-white/30 rounded-xl font-semibold transition-all duration-300">
+                      </Link>
+                      <button className="btn-secondary w-full">
                         View Profile
                       </button>
                     </div>
@@ -438,14 +422,12 @@ export default function SolutionsPage() {
           </div>
 
           {filteredSolutions.length === 0 && (
-            <div className="text-center py-24">
-              <div className="flex justify-center mb-6">
-                <div className="p-6 bg-white/5 rounded-full border border-white/10">
-                  <Search className="w-12 h-12 text-white/40" />
-                </div>
+            <div className="text-center py-24 bg-white/50 rounded-3xl border border-brand-orange/20 mt-8">
+              <div className="inline-flex justify-center items-center w-24 h-24 rounded-full bg-brand-orange/10 text-brand-orange mb-6">
+                <Search className="w-10 h-10" />
               </div>
-              <h3 className="text-3xl font-bold text-white mb-4">No Organizations Found</h3>
-              <p className="text-xl text-white/60">Try adjusting your filters to find what you're looking for</p>
+              <h3 className="text-2xl font-bold text-brand-foreground mb-2">No Organizations Found</h3>
+              <p className="text-brand-foreground/60">Try adjusting your filters to find what you're looking for</p>
             </div>
           )}
         </div>

@@ -1,21 +1,48 @@
 @import "tailwindcss";
 
-@layer base {
-  * {
-    box-sizing: border-box;
-  }
+@theme {
+  --font-sans: var(--font-inter), Inter, system-ui, sans-serif;
+  
+  /* Custom Color Palette - Warm Earth */
+  --color-brand-beige: #F4E7E1;
+  --color-brand-orange: #FF9B45;
+  --color-brand-rust: #D5451B;
+  --color-brand-brown: #521C0D;
+  
+  --color-background: #F4E7E1;
+  --color-foreground: #521C0D;
+}
 
-  body {
-    font-feature-settings: "rlig" 1, "calt" 1, "ss01" 1, "ss02" 1;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
+@layer components {
+  .btn-primary {
+    @apply bg-brand-rust text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:opacity-90 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed;
   }
-
-  /* Professional heading styles */
-  h1, h2, h3, h4, h5, h6 {
-    font-weight: 700;
-    letter-spacing: -0.02em;
+  
+  .btn-secondary {
+    @apply bg-transparent border-2 border-brand-rust text-brand-rust px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:bg-brand-rust hover:text-white disabled:opacity-50 disabled:cursor-not-allowed;
   }
 }
 
+/*
+  Base styles
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+  
+  body {
+    @apply bg-background text-foreground font-sans;
+  }
+}
+
+/* Leaflet Map Styles */
+.leaflet-container {
+  width: 90%;
+  height: 90%;
+  z-index: 0;
+}

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Waves, Home, Wind, Mountain, Sun, Flame, AlertTriangle } from 'lucide-react';
+import { Waves, Home, Wind, Mountain, Sun, Flame, AlertTriangle, Search, Filter, ArrowRight } from 'lucide-react';
 
 // Helper function to format date consistently
 const formatDate = (dateString: string) => {
@@ -123,7 +123,6 @@ const mockNonEarthquakeProblems = [
 
 export default function ProblemsPage() {
     const [earthquakeData, setEarthquakeData] = useState<any[]>([]);
-    const [ambeeData, setAmbeeData] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [selectedCategory, setSelectedCategory] = useState('All');
@@ -144,34 +143,12 @@ export default function ProblemsPage() {
                             .map(transformEarthquakeData);
                         setEarthquakeData(transformedEarthquakes);
                     }
+                    console.log("Earthquake data fetched successfully");
                 } catch (err) {
                     console.error('Error fetching USGS data:', err);
                 }
 
-                try {
-                    const ambeeResponse = await fetch('/api/disasters?lat=20.5937&lon=78.9629');
-                    if (ambeeResponse.ok) {
-                        const ambeeDataRaw = await ambeeResponse.json();
-                        if (ambeeDataRaw.data && Array.isArray(ambeeDataRaw.data)) {
-                            const transformedAmbee = ambeeDataRaw.data.slice(0, 5).map((disaster: any, index: number) => ({
-                                id: `ambee-${index}`,
-                                title: disaster.title || disaster.event || 'Natural Disaster',
-                                location: disaster.location || disaster.place || 'India',
-                                severity: disaster.severity || 'Medium',
-                                category: disaster.type || disaster.category || 'Other',
-                                affectedPeople: disaster.affectedPeople || 1000,
-                                dateReported: disaster.date || new Date().toISOString().split('T')[0],
-                                status: disaster.status || 'Monitoring',
-                                description: disaster.description || 'Disaster detected from Ambee data source.',
-                                resourcesNeeded: disaster.resourcesNeeded || ['Medical Aid', 'Emergency Response'],
-                                coordinates: disaster.coordinates || { lat: 20.5937, lng: 78.9629 },
-                            }));
-                            setAmbeeData(transformedAmbee);
-                        }
-                    }
-                } catch (err) {
-                    console.error('Error fetching Ambee data:', err);
-                }
+
 
                 setError(null);
             } catch (err) {
@@ -185,7 +162,7 @@ export default function ProblemsPage() {
         fetchDisasters();
     }, []);
 
-    const allProblems = [...earthquakeData, ...ambeeData, ...mockNonEarthquakeProblems];
+    const allProblems = [...earthquakeData, ...mockNonEarthquakeProblems];
     const categories = ['All', 'Flood', 'Earthquake', 'Cyclone', 'Landslide', 'Drought', 'Fire'];
     const severityLevels = ['All', 'Critical', 'High', 'Medium'];
 
@@ -195,70 +172,65 @@ export default function ProblemsPage() {
         return categoryMatch && severityMatch;
     });
 
-    const getSeverityColor = (severity: string) => {
+    const getSeverityStyles = (severity: string) => {
         switch (severity) {
             case 'Critical':
-                return 'from-red-500/20 via-rose-500/10 to-transparent border-red-500/30 text-red-300';
+                return {
+                    badge: 'bg-red-100 text-red-700 border-red-200',
+                    dot: 'bg-red-500'
+                };
             case 'High':
-                return 'from-orange-500/20 via-amber-500/10 to-transparent border-orange-500/30 text-orange-300';
+                return {
+                    badge: 'bg-orange-100 text-orange-700 border-orange-200',
+                    dot: 'bg-orange-500'
+                };
             case 'Medium':
-                return 'from-yellow-500/20 via-yellow-500/10 to-transparent border-yellow-500/30 text-yellow-300';
+                return {
+                    badge: 'bg-yellow-100 text-yellow-700 border-yellow-200',
+                    dot: 'bg-yellow-500'
+                };
             default:
-                return 'from-gray-500/20 via-gray-500/10 to-transparent border-gray-500/30 text-gray-300';
+                return {
+                    badge: 'bg-slate-100 text-slate-700 border-slate-200',
+                    dot: 'bg-slate-500'
+                };
         }
     };
 
-    const getStatusColor = (status: string) => {
+    const getStatusStyles = (status: string) => {
         switch (status) {
             case 'Active':
-                return 'bg-gradient-to-r from-red-500 via-rose-500 to-red-600';
+                return 'bg-brand-rust/10 text-brand-rust border-brand-rust/30';
             case 'Monitoring':
-                return 'bg-gradient-to-r from-yellow-500 via-amber-500 to-yellow-600';
+                return 'bg-brand-beige border-brand-orange/40 text-brand-foreground';
             case 'Resolving':
-                return 'bg-gradient-to-r from-blue-500 via-cyan-500 to-blue-600';
+                return 'bg-brand-orange/10 text-brand-foreground border-brand-orange/30';
             default:
-                return 'bg-gradient-to-r from-gray-500 to-gray-600';
+                return 'bg-slate-100 text-slate-600 border-slate-200';
         }
     };
 
     const getCategoryIcon = (category: string) => {
-        const iconClass = "w-12 h-12 md:w-14 md:h-14";
-        const iconColor = "text-white";
+        const iconClass = "w-5 h-5 md:w-7 md:h-7";
+        const iconColor = "text-brand-rust";
 
         switch (category) {
-            case 'Flood':
-                return <Waves className={`${iconClass} ${iconColor}`} />;
-            case 'Earthquake':
-                return <Home className={`${iconClass} ${iconColor}`} />;
-            case 'Cyclone':
-                return <Wind className={`${iconClass} ${iconColor}`} />;
-            case 'Landslide':
-                return <Mountain className={`${iconClass} ${iconColor}`} />;
-            case 'Drought':
-                return <Sun className={`${iconClass} ${iconColor}`} />;
-            case 'Fire':
-                return <Flame className={`${iconClass} ${iconColor}`} />;
-            default:
-                return <AlertTriangle className={`${iconClass} ${iconColor}`} />;
+            case 'Flood': return <Waves className={`${iconClass} ${iconColor}`} />;
+            case 'Earthquake': return <Home className={`${iconClass} ${iconColor}`} />;
+            case 'Cyclone': return <Wind className={`${iconClass} ${iconColor}`} />;
+            case 'Landslide': return <Mountain className={`${iconClass} ${iconColor}`} />;
+            case 'Drought': return <Sun className={`${iconClass} ${iconColor}`} />;
+            case 'Fire': return <Flame className={`${iconClass} ${iconColor}`} />;
+            default: return <AlertTriangle className={`${iconClass} ${iconColor}`} />;
         }
     };
 
     return (
-        <main className="relative min-h-screen bg-black overflow-hidden">
-            {/* Gradient Orbs Background */}
-            <div className="fixed inset-0 -z-10 overflow-hidden">
-                <div className="absolute top-0 left-1/4 w-[800px] h-[800px] bg-gradient-to-br from-indigo-500/30 via-violet-500/20 to-transparent rounded-full blur-3xl animate-pulse" />
-                <div className="absolute top-1/3 right-1/4 w-[600px] h-[600px] bg-gradient-to-br from-cyan-500/20 via-teal-500/10 to-transparent rounded-full blur-3xl animate-pulse delay-1000" />
-                <div className="absolute bottom-0 left-1/3 w-[700px] h-[700px] bg-gradient-to-br from-rose-500/20 via-pink-500/10 to-transparent rounded-full blur-3xl animate-pulse delay-2000" />
-            </div>
-
-            {/* Noise Texture Overlay */}
-            <div className="fixed inset-0 -z-10 opacity-[0.015] bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PC9maWx0ZXI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsdGVyPSJ1cmwoI2EpIi8+PC9zdmc+')] pointer-events-none" />
-
+        <main className="relative min-h-screen bg-brand-beige overflow-hidden">
             {/* Header */}
-            <section className="relative pt-32 pb-16 px-6 lg:px-12">
+            <section className="relative pt-32 pb-16 px-6 lg:px-12 bg-white/40 border-b border-brand-orange/10">
                 <div className="max-w-[1400px] mx-auto">
-                    <Link href="/" className="group inline-flex items-center gap-2 mb-8 text-white/60 hover:text-white transition-all duration-300">
+                    <Link href="/" className="group inline-flex items-center gap-2 mb-8 text-brand-foreground/60 hover:text-brand-rust transition-all duration-300">
                         <svg className="w-5 h-5 group-hover:-translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                         </svg>
@@ -267,74 +239,52 @@ export default function ProblemsPage() {
 
                     <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
                         <div className="flex-1 space-y-6">
-                            <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-balance">
-                                <span className="bg-gradient-to-br from-white via-white to-white/60 bg-clip-text text-transparent">
-                                    Active Disaster
-                                </span>
-                                <br />
-                                <span className="bg-gradient-to-r from-indigo-400 via-violet-400 to-cyan-400 bg-clip-text text-transparent">
-                                    Reports
-                                </span>
+                            <h1 className="text-5xl md:text-6xl font-bold tracking-tight text-brand-foreground">
+                                Active Disaster Reports
                             </h1>
 
-                            <p className="text-xl md:text-2xl text-white/60 max-w-2xl font-light leading-relaxed">
+                            <p className="text-xl text-brand-foreground/70 max-w-2xl font-normal leading-relaxed">
                                 Real-time monitoring of disaster situations across regions
-                                {loading && <span className="ml-2 text-cyan-400 animate-pulse">● Loading live data...</span>}
+                                {loading && <span className="ml-2 text-brand-rust animate-pulse">● Loading live data...</span>}
                             </p>
                         </div>
 
                         <Link
                             href="/solutions"
-                            className="group relative px-8 py-4 bg-gradient-to-r from-emerald-500/10 to-teal-500/10 hover:from-emerald-500/20 hover:to-teal-500/20 backdrop-blur-xl border border-emerald-500/20 rounded-2xl transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-emerald-500/20"
+                            className="btn-primary group relative px-8 py-4 flex items-center gap-3 text-lg"
                         >
-                            <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/0 via-emerald-500/10 to-emerald-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl" />
-                            <div className="relative flex items-center gap-3">
-                                <svg className="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                                </svg>
-                                <span className="font-semibold text-white">View Available Resources</span>
-                                <svg className="w-4 h-4 text-white/60 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                                </svg>
-                            </div>
+                            <span className="font-semibold">View Available Resources</span>
+                            <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                            </svg>
                         </Link>
                     </div>
                 </div>
             </section>
 
             {/* Stats Overview */}
-            <section className="relative px-6 lg:px-12 pb-16">
+            <section className="relative px-6 lg:px-12 py-12">
                 <div className="max-w-[1400px] mx-auto">
                     {error && (
-                        <div className="mb-8 p-6 bg-yellow-500/10 backdrop-blur-xl border border-yellow-500/20 rounded-2xl">
-                            <div className="flex items-center gap-3 text-yellow-300">
-                                <svg className="w-6 h-6 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                                </svg>
-                                <span className="font-medium">{error}</span>
-                            </div>
+                        <div className="mb-8 p-4 bg-red-50 text-red-700 border border-red-200 rounded-lg flex items-center gap-2">
+                            <AlertTriangle className="w-5 h-5" />
+                            <span>{error}</span>
                         </div>
                     )}
 
                     <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
                         {[
-                            { label: 'Total Reports', value: loading ? '...' : allProblems.length, gradient: 'from-indigo-500 to-violet-500', sublabel: loading ? 'Loading...' : 'Active cases' },
-                            { label: 'Critical', value: loading ? '...' : allProblems.filter((p) => p.severity === 'Critical').length, gradient: 'from-red-500 to-rose-500', sublabel: 'High priority' },
-                            { label: 'Active Cases', value: loading ? '...' : allProblems.filter((p) => p.status === 'Active').length, gradient: 'from-orange-500 to-amber-500', sublabel: 'Ongoing' },
-                            { label: 'People Affected', value: loading ? '...' : `${(allProblems.reduce((sum, p) => sum + p.affectedPeople, 0) / 1000).toFixed(0)}K`, gradient: 'from-cyan-500 to-teal-500', sublabel: 'Estimated' },
+                            { label: 'Total Reports', value: loading ? '...' : allProblems.length, sublabel: loading ? 'Loading...' : 'Active cases' },
+                            { label: 'Critical', value: loading ? '...' : allProblems.filter((p) => p.severity === 'Critical').length, sublabel: 'High priority' },
+                            { label: 'Active Cases', value: loading ? '...' : allProblems.filter((p) => p.status === 'Active').length, sublabel: 'Ongoing' },
+                            { label: 'People Affected', value: loading ? '...' : `${(allProblems.reduce((sum, p) => sum + p.affectedPeople, 0) / 1000).toFixed(0)}K`, sublabel: 'Estimated' },
                         ].map((stat, i) => (
-                            <div
-                                key={i}
-                                className="group relative p-6 md:p-8 bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl hover:bg-white/10 hover:border-white/20 transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl overflow-hidden"
-                            >
-                                <div className={`absolute inset-0 bg-gradient-to-br ${stat.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500`} />
-                                <div className="relative space-y-2">
-                                    <div className={`text-5xl md:text-6xl font-bold bg-gradient-to-br ${stat.gradient} bg-clip-text text-transparent`}>
-                                        {stat.value}
-                                    </div>
-                                    <div className="text-white/60 font-medium text-sm tracking-wide uppercase">{stat.label}</div>
-                                    <div className="text-white/40 text-xs">{stat.sublabel}</div>
+                            <div key={i} className="card p-6 flex flex-col items-center text-center md:items-start md:text-left">
+                                <div className="text-4xl md:text-5xl font-bold text-brand-rust mb-2">
+                                    {stat.value}
                                 </div>
+                                <div className="text-brand-foreground font-semibold text-sm uppercase tracking-wide opacity-80">{stat.label}</div>
+                                <div className="text-brand-foreground/50 text-xs">{stat.sublabel}</div>
                             </div>
                         ))}
                     </div>
@@ -342,20 +292,22 @@ export default function ProblemsPage() {
             </section>
 
             {/* Filters */}
-            <section className="relative px-6 lg:px-12 pb-16">
+            <section className="relative px-6 lg:px-12 pb-12">
                 <div className="max-w-[1400px] mx-auto">
-                    <div className="p-8 md:p-12 bg-white/5 backdrop-blur-2xl border border-white/10 rounded-3xl shadow-2xl">
-                        <div className="grid lg:grid-cols-2 gap-8 md:gap-12">
-                            <div>
-                                <label className="block text-sm font-bold text-white/80 mb-4 tracking-wide uppercase">Category</label>
-                                <div className="flex flex-wrap gap-3">
+                    <div className="p-8 bg-white/70 backdrop-blur-sm border border-brand-orange/20 rounded-2xl shadow-sm">
+                        <div className="flex flex-col md:flex-row gap-8">
+                            <div className="flex-1">
+                                <div className="flex items-center gap-2 mb-4 text-brand-foreground/70 font-bold uppercase text-xs tracking-wider">
+                                    Category
+                                </div>
+                                <div className="flex flex-wrap gap-2">
                                     {categories.map((category) => (
                                         <button
                                             key={category}
                                             onClick={() => setSelectedCategory(category)}
-                                            className={`px-6 py-3 rounded-2xl font-semibold text-sm transition-all duration-300 hover:scale-105 ${selectedCategory === category
-                                                ? 'bg-gradient-to-r from-indigo-500 to-violet-500 text-white shadow-lg shadow-indigo-500/50'
-                                                : 'bg-white/5 text-white/70 hover:bg-white/10 hover:text-white border border-white/10'
+                                            className={`px-4 py-2 rounded-lg font-medium text-sm transition-all duration-200 ${selectedCategory === category
+                                                ? 'bg-brand-rust text-white shadow-md'
+                                                : 'bg-white border border-brand-orange/20 text-brand-foreground/70 hover:bg-brand-orange/10'
                                                 }`}
                                         >
                                             {category}
@@ -364,16 +316,18 @@ export default function ProblemsPage() {
                                 </div>
                             </div>
 
-                            <div>
-                                <label className="block text-sm font-bold text-white/80 mb-4 tracking-wide uppercase">Severity</label>
-                                <div className="flex flex-wrap gap-3">
+                            <div className="flex-1">
+                                <div className="flex items-center gap-2 mb-4 text-brand-foreground/70 font-bold uppercase text-xs tracking-wider">
+                                    Severity
+                                </div>
+                                <div className="flex flex-wrap gap-2">
                                     {severityLevels.map((severity) => (
                                         <button
                                             key={severity}
                                             onClick={() => setSelectedSeverity(severity)}
-                                            className={`px-6 py-3 rounded-2xl font-semibold text-sm transition-all duration-300 hover:scale-105 ${selectedSeverity === severity
-                                                ? 'bg-gradient-to-r from-rose-500 to-red-500 text-white shadow-lg shadow-rose-500/50'
-                                                : 'bg-white/5 text-white/70 hover:bg-white/10 hover:text-white border border-white/10'
+                                            className={`px-4 py-2 rounded-lg font-medium text-sm transition-all duration-200 ${selectedSeverity === severity
+                                                ? 'bg-brand-rust text-white shadow-md'
+                                                : 'bg-white border border-brand-orange/20 text-brand-foreground/70 hover:bg-brand-orange/10'
                                                 }`}
                                         >
                                             {severity}
@@ -389,109 +343,117 @@ export default function ProblemsPage() {
             {/* Problems List */}
             <section className="relative px-6 lg:px-12 pb-24">
                 <div className="max-w-[1400px] mx-auto">
-                    <div className="space-y-6">
-                        {filteredProblems.map((problem) => (
-                            <div
-                                key={problem.id}
-                                className="group relative p-8 md:p-12 bg-white/5 backdrop-blur-2xl border border-white/10 rounded-2xl hover:bg-white/10 hover:border-white/20 transition-all duration-500 hover:scale-[1.01] hover:shadow-2xl overflow-hidden"
-                            >
-                                {/* Background gradient on hover */}
-                                <div className="absolute inset-0 transition-all duration-500 rounded-3xl" />
+                    <div className="space-y-6 bg-brand-beige ">
+                        {filteredProblems.map((problem) => {
+                            const severityStyle = getSeverityStyles(problem.severity);
 
-                                <div className="relative flex flex-col lg:flex-row lg:items-start gap-8">
-                                    {/* Left Section */}
-                                    <div className="flex-1 space-y-6">
-                                        <div className="flex items-start gap-6">
-                                            <div className="text-7xl group-hover:scale-110 transition-transform duration-500">
-                                                {getCategoryIcon(problem.category)}
-                                            </div>
+                            return (
+                                <div
+                                    key={problem.id}
+                                    className="card p-8 group transition-all bg-white/70 rounded duration-300 hover:shadow-lg border-brand-orange/20    "
+                                >
+                                    <div className="relative flex flex-col lg:flex-row lg:items-start gap-8">
+                                        {/* Left Section */}
+                                        <div className="flex-1 space-y-6">
+                                            <div className="flex items-start gap-6">
+                                                <div className=" rounded  border border-brand-orange/20">
+                                                    {getCategoryIcon(problem.category)}
+                                                </div>
 
-                                            <div className="flex-1 space-y-4">
-                                                <div className="flex flex-wrap items-center gap-3">
-                                                    <h3 className="text-3xl md:text-4xl font-bold text-white tracking-tight group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-white/60 group-hover:bg-clip-text transition-all duration-500">
-                                                        {problem.title}
-                                                    </h3>
+                                                <div className="flex-1 space-y-3">
+                                                    <div className="flex flex-wrap items-center gap-3">
+                                                        <h3 className="text-2xl font-bold text-brand-foreground group-hover:text-brand-rust transition-colors">
+                                                            {problem.title}
+                                                        </h3>
 
-                                                    <span className={`relative px-4 py-2 ${getStatusColor(problem.status)} rounded-full`}>
-                                                        <span className="relative flex items-center gap-2 text-xs font-bold text-white">
-                                                            <span className="w-2 h-2 bg-white rounded-full animate-pulse"></span>
+                                                        <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase border ${getStatusStyles(problem.status)}`}>
                                                             {problem.status}
                                                         </span>
-                                                    </span>
-                                                </div>
+                                                    </div>
 
-                                                <div className="flex flex-wrap items-center gap-4 md:gap-6 text-white/60">
-                                                    <span className="flex items-center gap-2 text-sm">
-                                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                                        </svg>
-                                                        {problem.location}
-                                                    </span>
-                                                    <span className="flex items-center gap-2 text-sm">
-                                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                        </svg>
-                                                        {formatDate(problem.dateReported)}
-                                                    </span>
-                                                    <span className="flex items-center gap-2 text-sm">
-                                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                                                        </svg>
-                                                        <span className="font-semibold text-white">{formatNumber(problem.affectedPeople)}</span> affected
-                                                    </span>
-                                                </div>
+                                                    <div className="flex flex-wrap items-center gap-4 text-brand-foreground/60 text-sm font-medium">
+                                                        <span className="flex items-center gap-1.5">
+                                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                                            </svg>
+                                                            {problem.location}
+                                                        </span>
+                                                        <span className="flex items-center gap-1.5">
+                                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                            </svg>
+                                                            {formatDate(problem.dateReported)}
+                                                        </span>
+                                                        <span className="flex items-center gap-1.5">
+                                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                                                            </svg>
+                                                            <span className="font-semibold text-brand-foreground">{formatNumber(problem.affectedPeople)}</span> affected
+                                                        </span>
+                                                    </div>
 
-                                                <p className="text-lg text-white/70 leading-relaxed">
-                                                    {problem.description}
-                                                </p>
+                                                    <p className="text-brand-foreground/80 leading-relaxed text-lg">
+                                                        {problem.description}
+                                                    </p>
 
-                                                <div className="space-y-3">
-                                                    <div className="text-sm font-bold text-white/80 tracking-wide uppercase">Resources Needed</div>
-                                                    <div className="flex flex-wrap gap-2">
-                                                        {problem.resourcesNeeded.map((resource: string, idx: number) => (
-                                                            <span
-                                                                key={idx}
-                                                                className="px-4 py-2 bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 rounded-xl text-sm font-medium backdrop-blur-xl hover:bg-indigo-500/20 transition-all duration-300"
-                                                            >
-                                                                {resource}
-                                                            </span>
-                                                        ))}
+                                                    <div className="space-y-2 pt-2">
+                                                        <div className="text-xs font-bold text-brand-foreground/50 uppercase tracking-wide">Resources Needed</div>
+                                                        <div className="flex flex-wrap gap-2">
+                                                            {problem.resourcesNeeded.map((resource: string, idx: number) => (
+                                                                <span
+                                                                    key={idx}
+                                                                    className="px-3 py-1.5 bg-brand-orange/10 border border-brand-orange/20 text-brand-brown rounded-md text-sm font-semibold"
+                                                                >
+                                                                    {resource}
+                                                                </span>
+                                                            ))}
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    {/* Right Section */}
-                                    <div className="flex flex-col gap-4 lg:items-end">
-                                        <div className={`px-6 py-3 bg-gradient-to-br ${getSeverityColor(problem.severity)} backdrop-blur-xl border rounded-2xl font-bold text-center min-w-[140px]`}>
-                                            {problem.severity}
+                                        {/* Right Section */}
+                                        <div className="flex flex-col gap-4 lg:items-end min-w-[200px]">
+                                            <div className={`px-4 py-2 rounded-lg border text-sm font-bold uppercase tracking-wider flex items-center gap-2 ${severityStyle.badge}`}>
+                                                <span className={`w-2 h-2 rounded-full ${severityStyle.dot} animate-pulse`}></span>
+                                                {problem.severity} Severity
+                                            </div>
+
+                                            <div className="flex flex-col gap-3 w-full sm:w-auto">
+                                                <Link
+                                                    href={`/map?lat=${problem.coordinates.lat}&lng=${problem.coordinates.lng}&title=${encodeURIComponent(problem.title)}&category=${problem.category}&severity=${problem.severity}&location=${encodeURIComponent(problem.location)}`}
+                                                    className="btn-secondary w-full flex items-center justify-center gap-2 py-3"
+                                                >
+                                                    <svg className="w-5 h-5 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                    </svg>
+                                                    <span>View Location</span>
+                                                </Link>
+
+                                                <Link
+                                                    href={`/report?location=${encodeURIComponent(problem.location)}&type=${problem.category}&severity=${problem.severity}`}
+                                                    className="btn-primary w-full flex items-center justify-center gap-2 py-3 shadow-lg shadow-brand-rust/20"
+                                                >
+                                                    <span>Respond Now</span>
+                                                    <ArrowRight className="w-5 h-5" />
+                                                </Link>
+                                            </div>
                                         </div>
-                                        <Link
-                                            href={`/map?lat=${problem.coordinates.lat}&lng=${problem.coordinates.lng}&title=${encodeURIComponent(problem.title)}&category=${problem.category}&severity=${problem.severity}&location=${encodeURIComponent(problem.location)}`}
-                                            className="px-6 py-3 border border-white/20 hover:border-white/50 bg-white/5 hover:bg-white/10 rounded-xl font-medium text-white transition-all duration-200 flex items-center justify-center gap-2"
-                                        >
-                                            <svg className="w-5 h-5 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                            </svg>
-                                            <span className="opacity-90">View Location</span>
-                                        </Link>
-                                        <button className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold transition-colors duration-200 shadow-sm hover:shadow active:scale-[0.98]">
-                                            Respond Now
-                                        </button>
-
                                     </div>
                                 </div>
-                            </div>
-                        ))}
+                            )
+                        })}
                     </div>
 
                     {filteredProblems.length === 0 && (
-                        <div className="text-center py-24">
-                            <div className="text-8xl mb-6 opacity-50">🔍</div>
-                            <h3 className="text-4xl font-bold text-white mb-4">No Problems Found</h3>
-                            <p className="text-xl text-white/60">Try adjusting your filters to see more results</p>
+                        <div className="text-center py-24 bg-white/50 rounded-3xl border border-brand-orange/20 mt-8">
+                            <div className="inline-flex justify-center items-center w-24 h-24 rounded-full bg-brand-orange/10 text-brand-orange mb-6">
+                                <Search className="w-10 h-10" />
+                            </div>
+                            <h3 className="text-2xl font-bold text-brand-foreground mb-2">No Problems Found</h3>
+                            <p className="text-brand-foreground/60">Try adjusting your filters to see more results</p>
                         </div>
                     )}
                 </div>
