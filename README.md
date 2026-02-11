@@ -57,7 +57,7 @@ This improves coordination, transparency, and operational efficiency during disa
 - Node.js  
 
 ### Database
-- MongoDB  
+- Postgresql with prisma
 
 ### Authentication and Security
 - JSON Web Tokens (JWT)  
