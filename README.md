@@ -1,4 +1,4 @@
-# ReliefSync – Disaster Response Coordination System
+# ReliefSync – Disaster Response Coordination System 
 
 ## Overview
 
