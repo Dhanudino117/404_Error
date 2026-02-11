@@ -12,7 +12,7 @@ The system helps authorities and relief organizations make informed decisions qu
 
 ## Problem Statement
 
-During disaster scenarios:
+During disaster scenarios: 
 
 - NGOs and government agencies operate on isolated systems  
 - Data sharing is manual and slow  
