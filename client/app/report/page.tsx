@@ -44,6 +44,8 @@ export default function ReportPage() {
         urgency: 'Medium',
         description: '',
         affectedPeople: '',
+        latitude: '20.5937',
+        longitude: '78.9629',
     });
 
     // Auto-fill form from URL parameters
@@ -54,6 +56,8 @@ export default function ReportPage() {
         const location = searchParams.get('location');
         const type = searchParams.get('type');
         const severity = searchParams.get('severity');
+        const latParam = searchParams.get('lat');
+        const lngParam = searchParams.get('lng');
 
         setFormData(prev => ({
             ...prev,
@@ -63,6 +67,8 @@ export default function ReportPage() {
             ...(location && { disasterLocation: location }),
             ...(type && { disasterType: type }),
             ...(severity && { urgency: severity }),
+            ...(latParam && { latitude: latParam }),
+            ...(lngParam && { longitude: lngParam }),
         }));
     }, [searchParams]);
 
@@ -94,25 +100,47 @@ export default function ReportPage() {
             }
             const resourcesString = allResources.join(', ');
 
-            // Send email notification
-            const response = await fetch('/api/send-email', {
+            // 1. Save Report to MongoDB Atlas via POST /api/reports
+            const reportPayload = {
+                title: `${formData.disasterType || 'Disaster'} Incident - ${formData.disasterLocation || 'Unknown Location'}`,
+                description: `${formData.description}\n\nOrganization: ${formData.organizationName} (${formData.contactPerson})\nContact: ${formData.email} | ${formData.phone}\nUrgency: ${formData.urgency}\nResources: ${resourcesString}`,
+                type: formData.disasterType || 'Other',
+                status: 'Active',
+                latitude: parseFloat(formData.latitude) || 20.5937,
+                longitude: parseFloat(formData.longitude) || 78.9629,
+            };
+
+            const dbResponse = await fetch('/api/reports', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    requestType,
-                    ...formData,
-                    resourcesNeeded: requestType === 'request_support' ? resourcesString : '',
-                    resourcesProvided: requestType === 'report_assistance' ? resourcesString : '',
-                }),
+                body: JSON.stringify(reportPayload),
             });
 
-            if (!response.ok) {
-                throw new Error('Failed to send email notifications');
+            const dbData = await dbResponse.json();
+
+            if (!dbResponse.ok || !dbData.success) {
+                throw new Error(dbData.message || 'Failed to save incident report to MongoDB');
             }
 
-            console.log('Form submitted successfully:', { requestType, ...formData });
+            // 2. Optionally trigger email notification
+            try {
+                await fetch('/api/send-email', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        requestType,
+                        ...formData,
+                        resourcesNeeded: requestType === 'request_support' ? resourcesString : '',
+                        resourcesProvided: requestType === 'report_assistance' ? resourcesString : '',
+                    }),
+                });
+            } catch (emailErr) {
+                console.warn('Email dispatch warning:', emailErr);
+            }
+
+            console.log('Report successfully saved to MongoDB Atlas:', dbData.data);
             setSubmitted(true);
 
             // Reset form after 5 seconds
@@ -130,11 +158,13 @@ export default function ReportPage() {
                     urgency: 'Medium',
                     description: '',
                     affectedPeople: '',
+                    latitude: '20.5937',
+                    longitude: '78.9629',
                 });
             }, 5000);
-        } catch (err) {
+        } catch (err: any) {
             console.error('Error submitting form:', err);
-            setError('Failed to submit the request. Please try again.');
+            setError(err.message || 'Failed to submit the request. Please try again.');
         } finally {
             setLoading(false);
         }

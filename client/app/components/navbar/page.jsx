@@ -63,9 +63,17 @@ export default function Navbar() {
                     <p className="text-xs text-brand-foreground/50">Signed in as</p>
                     <p className="text-sm font-semibold text-brand-foreground truncate">{user.email}</p>
                   </div>
+                  <Link
+                    href="/profile"
+                    onClick={() => setProfileOpen(false)}
+                    className="w-full flex items-center gap-2 px-4 py-2 text-sm text-brand-foreground hover:bg-brand-orange/10 transition-colors font-medium"
+                  >
+                    <User className="w-4 h-4 text-brand-rust" />
+                    View Profile
+                  </Link>
                   <button
                     onClick={handleLogout}
-                    className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                    className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors border-t border-brand-orange/10"
                   >
                     <LogOut className="w-4 h-4" />
                     Sign Out

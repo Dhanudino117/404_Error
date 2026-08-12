@@ -411,9 +411,12 @@ export default function SolutionsPage() {
                       >
                         Request Support
                       </Link>
-                      <button className="btn-secondary w-full">
+                      <Link
+                        href={`/profile?orgName=${encodeURIComponent(solution.organizationName)}&orgEmail=${encodeURIComponent(solution.email)}&orgPhone=${encodeURIComponent(solution.contactNumber)}&category=${encodeURIComponent(solution.type)}&location=${encodeURIComponent(solution.coverage ? solution.coverage.join(', ') : 'All India')}&capacity=${encodeURIComponent(solution.capacity)}&resources=${encodeURIComponent(solution.availableResources.join(','))}&canHelpWith=${encodeURIComponent(solution.activeIn.join(','))}&responseTime=${encodeURIComponent(solution.responseTime)}&deployments=${encodeURIComponent(solution.currentDeployments)}&status=${encodeURIComponent(solution.status)}`}
+                        className="btn-secondary w-full text-center"
+                      >
                         View Profile
-                      </button>
+                      </Link>
                     </div>
                   </div>
                 </div>
