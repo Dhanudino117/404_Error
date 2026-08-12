@@ -50,33 +50,76 @@ This improves coordination, transparency, and operational efficiency during disa
 ### Frontend
 - Next.js (App Router)  
 - React.js  
-- Tailwind CSS  
+- Tailwind CSS v4  
+- Leaflet / React-Leaflet (Map Visualization)  
+- Lucide React Icons  
 
-### Backend
+### Backend & Database
 - Next.js API Routes  
 - Node.js  
-
-### Database
-- Postgresql with prisma
+- **MongoDB Atlas with Mongoose**  
 
 ### Authentication and Security
 - JSON Web Tokens (JWT)  
 - Role-based access control   
+- Default demo credentials supported for quick testing  
 
 ### Integrations
 - REST APIs for data exchange  
-- Google Maps API or OpenStreetMap for geospatial visualization  
+- OpenStreetMap via Leaflet for geospatial visualization  
 
 ---
 
-## Why Next.js
+## Getting Started & Setup Guide
 
-Next.js enables ReliefSync to:
+### Prerequisites
+- Node.js 18+ installed
+- npm or yarn
 
-- Use server-side rendering for data-heavy dashboards  
-- Optimize performance with static and hybrid rendering where applicable  
-- Implement backend APIs within the same codebase  
-- Scale efficiently for high-traffic disaster scenarios  
+### Local Installation
+
+1. **Navigate to the client directory:**
+   ```bash
+   cd client
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+3. **Configure Environment Variables:**
+   Create a `.env.local` file inside the `client` directory with the following variables:
+   ```env
+   MONGODB_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/reliefsync
+   JWT_SECRET=your-secret-key
+   ```
+
+4. **Run the Development Server:**
+   ```bash
+   npm run dev
+   ```
+
+5. **Access the application:**
+   Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+---
+
+## Authentication & Quick Demo Login
+
+For ease of testing and evaluation, default credentials are pre-configured in the authentication system:
+
+- **Default Email:** `admin@reliefsync.com` (or any email)
+- **Default Password:** `password123` (or any password)
+
+Any user can log in using these default credentials or any email/password combination without requiring prior database seeding.
+
+---
+
+## Why Next.js & MongoDB Atlas
+
+- **MongoDB Atlas**: Provides flexible, cloud-hosted document storage ideal for dynamic disaster relief data schemas, geospatial indexing, and real-time updates.
+- **Next.js App Router**: Enables server-side rendering, API route handling, and rapid UI updates within a unified codebase.
 
 ---
 
@@ -91,4 +134,5 @@ Next.js enables ReliefSync to:
 
 ## Conclusion
 
-ReliefSync demonstrates how modern full-stack web technologies can address real-world coordination challenges in disaster management. By leveraging Next.js, open APIs, and real-time dashboards, the system provides a scalable and efficient solution for improving disaster relief collaboration.
+ReliefSync demonstrates how modern full-stack web technologies can address real-world coordination challenges in disaster management. By leveraging Next.js, MongoDB Atlas, open REST APIs, and real-time interactive maps, the system provides a scalable and efficient solution for improving disaster relief collaboration.
+

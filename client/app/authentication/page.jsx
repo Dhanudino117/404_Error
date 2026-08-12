@@ -2,21 +2,28 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 
 export default function AuthenticationPage() {
   const [isLogin, setIsLogin] = useState(true);
-  const router = useRouter();
   const { login } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
+    name: 'Demo User',
+    email: 'admin@reliefsync.com',
+    password: 'password123',
+    confirmPassword: 'password123',
   });
+
+  const handleQuickDemoLogin = () => {
+    setFormData({
+      name: 'Demo Admin',
+      email: 'admin@reliefsync.com',
+      password: 'password123',
+      confirmPassword: 'password123',
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -96,6 +103,7 @@ export default function AuthenticationPage() {
             {/* Toggle Tabs */}
             <div className="flex gap-2 p-1 bg-brand-beige rounded-2xl border border-brand-orange/10">
               <button
+                type="button"
                 onClick={() => setIsLogin(true)}
                 className={`flex-1 px-6 py-3 rounded-xl font-semibold transition-all duration-300 ${
                   isLogin
@@ -106,6 +114,7 @@ export default function AuthenticationPage() {
                 Login
               </button>
               <button
+                type="button"
                 onClick={() => setIsLogin(false)}
                 className={`flex-1 px-6 py-3 rounded-xl font-semibold transition-all duration-300 ${
                   !isLogin
@@ -114,6 +123,21 @@ export default function AuthenticationPage() {
                 }`}
               >
                 Sign Up
+              </button>
+            </div>
+
+            {/* Demo Notice */}
+            <div className="p-3 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-800 flex items-center justify-between gap-2">
+              <div>
+                <span className="font-bold">🔑 Default Login Access:</span>
+                <div className="text-amber-700">Email: <code className="bg-amber-100 px-1 rounded">admin@reliefsync.com</code> | Pass: <code className="bg-amber-100 px-1 rounded">password123</code></div>
+              </div>
+              <button
+                type="button"
+                onClick={handleQuickDemoLogin}
+                className="px-2 py-1 bg-amber-600 text-white font-medium rounded-lg text-xs hover:bg-amber-700 transition-colors shrink-0 shadow-sm"
+              >
+                Auto-fill
               </button>
             </div>
 
@@ -269,7 +293,7 @@ export default function AuthenticationPage() {
 
         {/* Terms */}
         <p className="mt-6 text-center text-xs text-brand-foreground/40">
-          By continuing, you agree to ReliefSync's{' '}
+          By continuing, you agree to ReliefSync&apos;s{' '}
           <a href="#" className="text-brand-foreground/60 hover:text-brand-rust transition-colors">Terms of Service</a>
           {' '}and{' '}
           <a href="#" className="text-brand-foreground/60 hover:text-brand-rust transition-colors">Privacy Policy</a>
